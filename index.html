@@ -1,195 +1,597 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke - Un Problema Menos</title>
+  <meta charset="UTF-8" />
+  <title>¿Por qué deberías ver Bleach?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Fuente bonita -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0%, #020617 55%, #000 100%);
+      color: #f9fafb;
+      min-height: 100vh;
+    }
 
-        body {
-            background: radial-gradient(circle at top, #111827, #0f172a 50%, #000 100%);
-            color: #fff;
-            font-family: "Poppins", system-ui, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 30px 10px;
-        }
+    .shine {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(59,130,246,0.14) 0, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(249,115,22,0.10) 0, transparent 55%);
+      z-index: -1;
+    }
 
-        .card {
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(14px);
-            width: 100%;
-            max-width: 750px;
-            padding: 32px;
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.55);
-        }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
 
-        h1 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 6px;
-        }
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
 
-        h2 {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.95rem;
-            margin-bottom: 22px;
-        }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.75);
+      border: 1px solid rgba(148,163,184,0.5);
+      backdrop-filter: blur(10px);
+      margin-bottom: 1rem;
+    }
 
-        audio {
-            width: 100%;
-            margin-bottom: 22px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
-        }
+    .badge span {
+      font-size: 1rem;
+    }
 
-        .lyrics-box {
-            background: rgba(15,23,42,0.6);
-            border-radius: 20px;
-            padding: 20px;
-            height: 380px;
-            overflow-y: auto;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
-            scroll-behavior: smooth;
-        }
+    h1 {
+      font-size: clamp(2.2rem, 3.4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.03em;
+    }
 
-        .line {
-            text-align: center;
-            font-size: 18px;
-            margin: 8px 0;
-            color: #9ca3af;
-            transition: 0.25s ease;
-        }
+    h1 .accent {
+      background: linear-gradient(120deg, #38bdf8, #fb923c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-        .line:hover {
-            color: #e2e8f0;
-            cursor: pointer;
-        }
+    .subtitle {
+      max-width: 620px;
+      margin: 0.5rem auto 0;
+      font-weight: 300;
+      color: #e5e7eb;
+      font-size: 0.98rem;
+    }
 
-        .line.active {
-            color: #10d38d;
-            font-size: 22px;
-            font-weight: bold;
-            text-shadow: 0 0 14px rgba(16, 211, 141, 0.8);
-            transform: scale(1.04);
-        }
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 1.8rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
 
-        /* Scroll bonito */
-        .lyrics-box::-webkit-scrollbar {
-            width: 6px;
-        }
-        .lyrics-box::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 10px;
-        }
-    </style>
+    .hero-text {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%);
+      border-radius: 1.5rem;
+      padding: 1.5rem 1.8rem;
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.8);
+    }
+
+    .hero-text h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-text p {
+      font-size: 0.96rem;
+      line-height: 1.6;
+      margin-bottom: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .hero-list {
+      list-style: none;
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .hero-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .hero-list li span {
+      font-size: 1.15rem;
+      margin-top: 0.05rem;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: linear-gradient(120deg, #fb923c, #f97316);
+      color: #111827;
+      box-shadow: 0 12px 30px rgba(248,113,113,0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.05);
+      box-shadow: 0 16px 38px rgba(248,113,113,0.6);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-radius: 999px;
+      padding: 0.65rem 1.2rem;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15,23,42,0.8);
+      border-color: #f97316;
+      transform: translateY(-1px);
+    }
+
+    .mini-text {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      border-radius: 1.7rem;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.35);
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      box-shadow: 0 18px 50px rgba(15,23,42,0.9);
+    }
+
+    .hero-image-main {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.1) contrast(1.03);
+    }
+
+    .hero-tag {
+      position: absolute;
+      bottom: 0.8rem;
+      left: 0.9rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.8);
+      backdrop-filter: blur(10px);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-tag span {
+      font-size: 1rem;
+    }
+
+    .hero-mini {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      width: 95px;
+      height: 95px;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 2px solid rgba(248,250,252,0.9);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.95);
+    }
+
+    .hero-mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Reasons section */
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .section-caption {
+      font-size: 0.9rem;
+      color: #cbd5f5;
+      margin-bottom: 1.3rem;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
+      border-radius: 1.2rem;
+      border: 1px solid rgba(148,163,184,0.4);
+      padding: 1rem 1.1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      font-size: 1.4rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1.0rem;
+    }
+
+    .card-text {
+      font-size: 0.88rem;
+      color: #e5e7eb;
+      line-height: 1.5;
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      align-self: flex-start;
+      opacity: 0.9;
+    }
+
+    /* Starter pack */
+    .starter-pack {
+      background: linear-gradient(120deg, rgba(30,64,175,0.95), rgba(67,56,202,0.95));
+      border-radius: 1.5rem;
+      padding: 1.4rem 1.5rem 1.6rem;
+      border: 1px solid rgba(191,219,254,0.7);
+      box-shadow: 0 22px 50px rgba(15,23,42,0.9);
+      margin-bottom: 2.3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.4rem;
+    }
+
+    .starter-pack h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .starter-pack p {
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .starter-list {
+      list-style: none;
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.86rem;
+    }
+
+    .starter-list li {
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    .starter-list li span {
+      font-size: 1.05rem;
+      margin-top: 0.05rem;
+    }
+
+    .starter-image {
+      border-radius: 1.1rem;
+      overflow: hidden;
+      background: rgba(15,23,42,0.25);
+      border: 1px solid rgba(219,234,254,0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      padding: 0.6rem;
+    }
+
+    .starter-image-main {
+      width: 100%;
+      height: 150px;
+      border-radius: 0.9rem;
+      object-fit: cover;
+      display: block;
+    }
+
+    .starter-caption {
+      font-size: 0.8rem;
+      text-align: center;
+      opacity: 0.95;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .final-cta p {
+      font-size: 0.95rem;
+      margin-bottom: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .final-note {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-image-wrapper {
+        order: -1;
+      }
+      .starter-pack {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-inline: 1rem;
+      }
+      .hero-text {
+        padding: 1.1rem 1.1rem;
+      }
+      h1 {
+        font-size: 2.1rem;
+      }
+      .hero-image-main {
+        height: 220px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="card">
-        <h1>Un Problema Menos</h1>
-        <h2>Karaoke no oficial – El Cuarteto de Nos</h2>
+  <div class="shine"></div>
+  <div class="container">
+    <header>
+      <div class="badge">
+        <span>🍊</span>
+        <strong>Advertencia:</strong> después de esta página vas a querer gritar “Bankai”.
+      </div>
+      <h1>
+        Vean <span class="accent">BLEACH</span> Mierda
+      </h1>
+      <p class="subtitle">
+        Si tu vida te parece tranquila, organizada y emocionalmente estable, es momento de arruinarla responsablemente con shinigamis, espadas gigantes y traumas bien escritos.
+      </p>
+    </header>
 
-        <audio id="audio" controls>
-            <source src="img/Unproblemamenos.mp3" type="audio/mpeg">
-            Tu navegador no soporta el reproductor de audio.
-        </audio>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-image-wrapper">
+        <!-- Cambia la ruta por una imagen épica de Bleach -->
+        <img src="img/bleach-ichigo.jpg" alt="Protagonista de Bleach con su zanpakutō" class="hero-image-main">
+        <div class="hero-tag">
+          <span>⚔️</span>
+          <span>“Solo un capítulo” — mentira clásica desde 2004</span>
+        </div>
+        <div class="hero-mini">
+          <!-- Otra imagen pequeña (ej: Soul Society) -->
+          <img src="img/bleach-soul-society.jpg" alt="Ciudad de las almas Bleach">
+        </div>
+      </div>
 
-        <div class="lyrics-box" id="lyrics-container"></div>
-    </div>
+      <div class="hero-text">
+        <h2>¿Por qué Bleach y no otra cosa?</h2>
+        <p>
+          Porque ninguna otra serie combina tan bien: peleas épicas, bandas sonoras brutales, personajes rotos por dentro
+          y chistes en los peores momentos posibles.
+        </p>
+        <ul class="hero-list">
+          <li>
+            <span>🔥</span>
+            <div><strong>Power-ups con estilo:</strong> aquí no es “me hice fuerte porque sí”; es <em>“despierta, zanpakutō”</em> y la pantalla se vuelve arte.</div>
+          </li>
+          <li>
+            <span>🧡</span>
+            <div><strong>Protagonista naranjo fosforescente:</strong> no lo pierdes de vista ni aunque cierres los ojos.</div>
+          </li>
+          <li>
+            <span>😈</span>
+            <div><strong>Villanos peligrosamente carismáticos:</strong> tú sabes que son malos… pero igual los citas.</div>
+          </li>
+        </ul>
+        <div class="cta-group">
+          <button class="btn-primary">
+            Empezar Bleach hoy 👀
+          </button>
+          <button class="btn-ghost">
+            <span>⏱️</span>
+            <span class="mini-text">“Solo veré un capítulo” (nadie jamás)</span>
+          </button>
+        </div>
+      </div>
+    </section>
 
-    <script>
-        const lyricsData = [
-            { time: 13.5, text: "Sé que piensan sin hablar" },
-            { time: 15.0, text: "Que estorbo más que ayudar" },
-            { time: 16.5, text: "Y que soy solo un problema" },
-            { time: 18.0, text: "Y que por mi forma de ser" },
-            { time: 19.5, text: "Solo logro entorpecer" },
-            { time: 21.0, text: "Sus anhelos y sus metas" },
-            { time: 23.0, text: "Soy un conflicto, parece ser el veredicto" },
-            { time: 26.0, text: "Y que a complicar las situaciones soy adicto" },
-            { time: 29.0, text: "Una carga que pesa, y ese peso hay que sufrir" },
-            { time: 32.0, text: "No me lo dicen, pero me lo hacen sentir" },
-            { time: 35.0, text: "Soy la mosca en su sopa, soy la polilla en su ropa" },
-            { time: 38.0, text: "El viento que nunca les sopla en la popa" },
-            { time: 41.0, text: "Soy la cicatriz que avergüenza y hace esconder sus caras" },
-            { time: 44.0, text: "Soy sus secretos publicados en primera plana" },
-            { time: 47.0, text: "Y el día que tenga que irme lejos" },
-            { time: 50.0, text: "Y pase a estar solamente en sueños" },
-            { time: 53.0, text: "Podrá servir o no de consuelo" },
-            { time: 56.0, text: "Que al menos seré un problema menos" },
-            { time: 59.0, text: "Un problema menos, un problema menos" },
-            { time: 62.0, text: "Soy el obstáculo a salvar" },
-            { time: 64.0, text: "La excusa que suelen usar" },
-            { time: 65.5, text: "Para ocultar sus decepciones" },
-            { time: 68.0, text: "Soy lo que intentan esconder" },
-            { time: 70.0, text: "El espejo en que no quieren ver" },
-            { time: 71.5, text: "Todas sus frustraciones" },
-            { time: 74.0, text: "Puedo olfatearles el miedo ante mis desacatos" },
-            { time: 77.0, text: "Hace rato sé que soy la piedra en sus zapatos" },
-            { time: 80.0, text: "Y mi alegato parece algo extraño" },
-            { time: 83.0, text: "Nos hace daño quien nos quiere y no quien quiere hacernos daño" },
-            { time: 86.0, text: "Ven mis defectos con microscopio" },
-            { time: 89.0, text: "Ven el pelo en ojo ajeno y no el ladrillo en el propio" },
-            { time: 92.0, text: "Y si les molesta aguantar mi presencia" },
-            { time: 94.0, text: "Entonces si no brillo yo, brillará mi ausencia" },
-            { time: 96.0, text: "Y el día que tenga que irme lejos" },
-            { time: 99.0, text: "Y pase a estar solamente en sueños" },
-            { time: 102.0, text: "Podrá servir o no de consuelo" },
-            { time: 105.0, text: "Que al menos seré un problema menos" },
-            { time: 108.0, text: "Un problema menos, un problema menos" },
-            { time: 111.0, text: "Y el día que tenga que irme lejos" },
-            { time: 114.0, text: "Y pase a estar solamente en sueños" },
-            { time: 117.0, text: "Podrá servir o no de consuelo" },
-            { time: 120.0, text: "Que al menos seré un problema menos" },
-            { time: 123.0, text: "Un problema menos, un problema menos" },
-            { time: 126.0, text: "Un problema menos, un problema menos" },
-            { time: 130.0, text: "Un problema menos, un problema menos" }
-        ];
+    <!-- Reasons -->
+    <section>
+      <h2 class="section-title">Razones científicamente irresponsables para verla</h2>
+      <p class="section-caption">
+        Estudio no aprobado por ninguna institución seria, pero 10/10 fans de Bleach lo recomiendan.
+      </p>
 
-        const audio = document.getElementById("audio");
-        const container = document.getElementById("lyrics-container");
+      <div class="reasons-grid">
+        <article class="card">
+          <div class="pill">Peligro de adicción</div>
+          <div class="card-icon">📺</div>
+          <h3 class="card-title">“Solo la saga Soul Society”</h3>
+          <p class="card-text">
+            Empiezas “solo para ver de qué se trata” y cuando te das cuenta estás discutiendo en internet qué Bankai es más
+            roto a las 3 a.m. con gente que no conoces.
+          </p>
+        </article>
 
-        // Generar líneas
-        lyricsData.forEach((l, i) => {
-            const div = document.createElement("div");
-            div.className = "line";
-            div.innerText = l.text;
-            div.onclick = () => { audio.currentTime = l.time; audio.play(); };
-            container.appendChild(div);
-        });
+        <article class="card">
+          <div class="pill">Nivel de drip: ilegal</div>
+          <div class="card-icon">🧥</div>
+          <h3 class="card-title">Shinigamis con flow absurdo</h3>
+          <p class="card-text">
+            Capas negras, espadas enormes y miradas serias. Después de unos capítulos vas a querer ir al súper con kimono y
+            sandalias como si nada.
+          </p>
+        </article>
 
-        // Sincronización
-        audio.addEventListener("timeupdate", () => {
-            const time = audio.currentTime;
-            let active = -1;
+        <article class="card">
+          <div class="pill">Daño emocional hermoso</div>
+          <div class="card-icon">💔</div>
+          <h3 class="card-title">Te ríes, te hypeas, te destruyes</h3>
+          <p class="card-text">
+            Bleach se especializa en: “jaja qué chistoso” → “¡vamos, Ichigo!” → “espera, por qué estoy llorando en arco
+            24”. Todo en menos de 20 minutos.
+          </p>
+        </article>
 
-            for (let i = 0; i < lyricsData.length; i++) {
-                if (time >= lyricsData[i].time) active = i;
-                else break;
-            }
+        <article class="card">
+          <div class="pill">Estética peligrosa</div>
+          <div class="card-icon">🎧</div>
+          <h3 class="card-title">Soundtrack que te hace sentir protagonista</h3>
+          <p class="card-text">
+            Escuchas un tema de Bleach caminando por la calle y de pronto la vereda se siente como la entrada a la
+            Sociedad de Almas. Nadie te entiende, pero tú sí.
+          </p>
+        </article>
+      </div>
+    </section>
 
-            document.querySelectorAll(".line").forEach((el, i) => {
-                if (i === active) {
-                    el.classList.add("active");
-                    el.scrollIntoView({ block: "center", behavior: "smooth" });
-                } else {
-                    el.classList.remove("active");
-                }
-            });
-        });
-    </script>
+    <!-- Starter pack -->
+    <section class="starter-pack">
+      <div>
+        <h3>Bleach Starter Pack (modo chill)</h3>
+        <p>
+          No necesitas tanto para entrar al vicio, solo esto:
+        </p>
+        <ul class="starter-list">
+          <li>
+            <span>🛋️</span>
+            <div><strong>Un lugar cómodo:</strong> sillón, cama o ese rincón donde te haces bolita existencial.</div>
+          </li>
+          <li>
+            <span>🍿</span>
+            <div><strong>Snacks de confianza:</strong> porque vas a decir “uno más” varias veces.</div>
+          </li>
+          <li>
+            <span>📶</span>
+            <div><strong>Buen internet:</strong> nada duele más que un corte justo antes de un Bankai.</div>
+          </li>
+          <li>
+            <span>👀</span>
+            <div><strong>Mente abierta:</strong> aceptas shinigamis, hollows, almas, traiciones y peinados dudosos.</div>
+          </li>
+          <li>
+            <span>⏰</span>
+            <div><strong>Tiempo:</strong> o al menos la ilusión de tenerlo, porque lo vas a perder igual.</div>
+          </li>
+        </ul>
+      </div>
 
+      <div class="starter-image">
+        <!-- Cambia por otra imagen, por ejemplo, el elenco principal -->
+        <img src="img/bleach-squad.jpg" alt="Grupo de personajes de Bleach posando" class="starter-image-main">
+        <p class="starter-caption">
+          “No me encariñaré con tantos personajes” — declaración que quedará obsoleta en pocos capítulos.
+        </p>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <h2>Entonces… ¿vemos Bleach o qué? 🤨</h2>
+      <p>
+        Tu yo del futuro ya está debatiendo openings favoritos y diciendo “Getsuga Tenshō” en voz baja.
+        Hazle un favor y empieza la serie.
+      </p>
+     <a href="https://www.disneyplus.com/es-py/browse/entity-c649c634-7f8d-48a9-ba72-48bd4b9c8419" target="_blank">
+  <button class="btn-primary">
+    Empezar Bleach hoy 👀
+  </button>
+</a>
+
+      <p class="final-note">
+        Si después de unos capítulos no te gusta, al menos podrás decir con propiedad: “Bleach no es para mí”.
+        Pero si te atrapa… bienvenido al club de las ojeras felices.
+      </p>
+    </section>
+  </div>
 </body>
 </html>
 
