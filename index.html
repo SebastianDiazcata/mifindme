@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <title>¿Por qué deberías ver Bleach?</title>
+  <title>Vean Bleach Mierda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Fuente bonita -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -14,20 +14,31 @@
     }
 
     body {
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #1f2937 0%, #020617 55%, #000 100%);
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #1f2937, #020617, #000);
       color: #f9fafb;
       min-height: 100vh;
     }
 
-    .shine {
+    /* Botón mute */
+    #mute-btn {
       position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(59,130,246,0.14) 0, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(249,115,22,0.10) 0, transparent 55%);
-      z-index: -1;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 10px 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 9999;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(6px);
+      transition: 0.2s;
+    }
+
+    #mute-btn:hover {
+      transform: scale(1.1);
+      background: rgba(0, 0, 0, 0.8);
     }
 
     .container {
@@ -41,31 +52,13 @@
       margin-bottom: 2.5rem;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.75);
-      border: 1px solid rgba(148,163,184,0.5);
-      backdrop-filter: blur(10px);
-      margin-bottom: 1rem;
-    }
-
-    .badge span {
-      font-size: 1rem;
-    }
-
     h1 {
-      font-size: clamp(2.2rem, 3.4vw, 3rem);
+      font-size: clamp(2.4rem, 3.6vw, 3.2rem);
       font-weight: 800;
       margin-bottom: 0.7rem;
-      letter-spacing: 0.03em;
     }
 
-    h1 .accent {
+    .accent {
       background: linear-gradient(120deg, #38bdf8, #fb923c);
       -webkit-background-clip: text;
       color: transparent;
@@ -73,13 +66,13 @@
 
     .subtitle {
       max-width: 620px;
-      margin: 0.5rem auto 0;
+      margin: 1rem auto;
       font-weight: 300;
       color: #e5e7eb;
-      font-size: 0.98rem;
+      font-size: 1rem;
     }
 
-    /* Hero */
+    /* HERO */
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -88,113 +81,19 @@
       margin-bottom: 3rem;
     }
 
-    .hero-text {
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%);
-      border-radius: 1.5rem;
-      padding: 1.5rem 1.8rem;
-      border: 1px solid rgba(148,163,184,0.35);
-      box-shadow: 0 18px 40px rgba(15,23,42,0.8);
-    }
-
-    .hero-text h2 {
-      font-size: 1.4rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .hero-text p {
-      font-size: 0.96rem;
-      line-height: 1.6;
-      margin-bottom: 0.9rem;
-      color: #e5e7eb;
-    }
-
-    .hero-list {
-      list-style: none;
-      display: grid;
-      gap: 0.5rem;
-      margin-top: 0.4rem;
-      font-size: 0.95rem;
-    }
-
-    .hero-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
-    .hero-list li span {
-      font-size: 1.15rem;
-      margin-top: 0.05rem;
-    }
-
-    .cta-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1.1rem;
-      align-items: center;
-    }
-
-    .btn-primary {
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 0.75rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      background: linear-gradient(120deg, #fb923c, #f97316);
-      color: #111827;
-      box-shadow: 0 12px 30px rgba(248,113,113,0.4);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px) scale(1.02);
-      filter: brightness(1.05);
-      box-shadow: 0 16px 38px rgba(248,113,113,0.6);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      border-radius: 999px;
-      padding: 0.65rem 1.2rem;
-      border: 1px solid rgba(148,163,184,0.6);
-      color: #e5e7eb;
-      font-size: 0.85rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-    }
-
-    .btn-ghost:hover {
-      background: rgba(15,23,42,0.8);
-      border-color: #f97316;
-      transform: translateY(-1px);
-    }
-
-    .mini-text {
-      font-size: 0.8rem;
-      opacity: 0.9;
-    }
-
     .hero-image-wrapper {
       position: relative;
       border-radius: 1.7rem;
       overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.35);
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      box-shadow: 0 18px 50px rgba(15,23,42,0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #0f172a;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
     }
 
     .hero-image-main {
       width: 100%;
       height: 260px;
       object-fit: cover;
-      display: block;
-      filter: saturate(1.1) contrast(1.03);
     }
 
     .hero-tag {
@@ -204,16 +103,8 @@
       padding: 0.45rem 0.8rem;
       border-radius: 999px;
       font-size: 0.8rem;
-      background: rgba(15,23,42,0.85);
-      border: 1px solid rgba(148,163,184,0.8);
-      backdrop-filter: blur(10px);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .hero-tag span {
-      font-size: 1rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
     }
 
     .hero-mini {
@@ -224,30 +115,48 @@
       height: 95px;
       border-radius: 1rem;
       overflow: hidden;
-      border: 2px solid rgba(248,250,252,0.9);
-      box-shadow: 0 12px 30px rgba(15,23,42,0.95);
+      border: 2px solid rgba(248, 250, 252, 0.9);
     }
 
     .hero-mini img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
-    /* Reasons section */
-    .section-title {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
+    .hero-text {
+      background: rgba(56, 189, 248, 0.07);
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
     }
 
-    .section-caption {
-      font-size: 0.9rem;
-      color: #cbd5f5;
-      margin-bottom: 1.3rem;
+    .hero-list {
+      margin-top: 1rem;
+      list-style: none;
+      display: grid;
+      gap: 0.5rem;
     }
 
+    .btn-primary {
+      border: none;
+      cursor: pointer;
+      padding: 0.75rem 1.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      background: linear-gradient(120deg, #fb923c, #f97316);
+      color: #111;
+      margin-top: 1rem;
+      transition: 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    /* REASONS GRID */
     .reasons-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -256,342 +165,136 @@
     }
 
     .card {
-      background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
+      background: rgba(15, 23, 42, 0.9);
+      padding: 1rem;
       border-radius: 1.2rem;
-      border: 1px solid rgba(148,163,184,0.4);
-      padding: 1rem 1.1rem 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      position: relative;
-      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.3);
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      pointer-events: none;
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .card-icon {
-      font-size: 1.4rem;
-    }
-
-    .card-title {
-      font-weight: 600;
-      font-size: 1.0rem;
-    }
-
-    .card-text {
-      font-size: 0.88rem;
-      color: #e5e7eb;
-      line-height: 1.5;
-    }
-
-    .pill {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.6);
-      align-self: flex-start;
-      opacity: 0.9;
-    }
-
-    /* Starter pack */
+    /* STARTER PACK */
     .starter-pack {
-      background: linear-gradient(120deg, rgba(30,64,175,0.95), rgba(67,56,202,0.95));
+      background: linear-gradient(120deg, rgba(30, 64, 175, 0.95), rgba(67, 56, 202, 0.95));
+      padding: 1.4rem;
       border-radius: 1.5rem;
-      padding: 1.4rem 1.5rem 1.6rem;
-      border: 1px solid rgba(191,219,254,0.7);
-      box-shadow: 0 22px 50px rgba(15,23,42,0.9);
       margin-bottom: 2.3rem;
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
       gap: 1.4rem;
+      border: 1px solid rgba(191, 219, 254, 0.6);
     }
 
-    .starter-pack h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .starter-pack p {
-      font-size: 0.9rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .starter-list {
-      list-style: none;
-      display: grid;
-      gap: 0.35rem;
-      font-size: 0.86rem;
-    }
-
-    .starter-list li {
-      display: flex;
-      gap: 0.4rem;
-      align-items: flex-start;
-    }
-
-    .starter-list li span {
-      font-size: 1.05rem;
-      margin-top: 0.05rem;
-    }
-
-    .starter-image {
-      border-radius: 1.1rem;
-      overflow: hidden;
-      background: rgba(15,23,42,0.25);
-      border: 1px solid rgba(219,234,254,0.7);
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      padding: 0.6rem;
-    }
-
-    .starter-image-main {
+    .starter-image img {
       width: 100%;
-      height: 150px;
-      border-radius: 0.9rem;
-      object-fit: cover;
-      display: block;
+      border-radius: 1rem;
     }
 
-    .starter-caption {
-      font-size: 0.8rem;
-      text-align: center;
-      opacity: 0.95;
-    }
-
-    /* Final CTA */
     .final-cta {
       text-align: center;
     }
 
-    .final-cta h2 {
-      font-size: 1.5rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .final-cta p {
-      font-size: 0.95rem;
-      margin-bottom: 0.9rem;
-      color: #e5e7eb;
-    }
-
-    .final-note {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
-
     @media (max-width: 860px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .hero-image-wrapper {
-        order: -1;
-      }
+      .hero,
       .starter-pack {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding-inline: 1rem;
-      }
-      .hero-text {
-        padding: 1.1rem 1.1rem;
-      }
-      h1 {
-        font-size: 2.1rem;
-      }
-      .hero-image-main {
-        height: 220px;
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
+
 <body>
-  <div class="shine"></div>
+
+  <!-- 🎵 AUDIO DE FONDO -->
+  <audio id="bg-music" src="img/rain.mp3" autoplay loop></audio>
+
+  <!-- 🔇 BOTÓN DE MUTE -->
+  <div id="mute-btn">🔊</div>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("mute-btn");
+
+    document.addEventListener("click", () => {
+      if (music.paused) music.play().catch(() => { });
+    }, { once: true });
+
+    btn.addEventListener("click", () => {
+      music.muted = !music.muted;
+      btn.textContent = music.muted ? "🔇" : "🔊";
+    });
+  </script>
+
   <div class="container">
+
     <header>
-      <div class="badge">
-        <span>🍊</span>
-        <strong>Advertencia:</strong> después de esta página vas a querer gritar “Bankai”.
-      </div>
-      <h1>
-        Vean <span class="accent">BLEACH</span> Mierda
-      </h1>
-      <p class="subtitle">
-        Si tu vida te parece tranquila, organizada y emocionalmente estable, es momento de arruinarla responsablemente con shinigamis, espadas gigantes y traumas bien escritos.
-      </p>
+      <h1>Vean <span class="accent">BLEACH</span> Mierda</h1>
+      <p class="subtitle">Si tu vida está muy tranquila… arruínala responsablemente con shinigamis.</p>
     </header>
 
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-image-wrapper">
-        <!-- Cambia la ruta por una imagen épica de Bleach -->
-        <img src="img/bleach-ichigo.jpg" alt="Protagonista de Bleach con su zanpakutō" class="hero-image-main">
-        <div class="hero-tag">
-          <span>⚔️</span>
-          <span>“Solo un capítulo” — mentira clásica desde 2004</span>
-        </div>
-        <div class="hero-mini">
-          <!-- Otra imagen pequeña (ej: Soul Society) -->
-          <img src="img/bleach-soul-society.jpg" alt="Ciudad de las almas Bleach">
-        </div>
+        <img src="img/bleach-ichigo.jpg" class="hero-image-main">
+        <div class="hero-tag">⚔️ “Solo un capítulo” — mentira clásica desde 2004</div>
+        <div class="hero-mini"><img src="img/bleach-soul-society.jpg"></div>
       </div>
 
       <div class="hero-text">
-        <h2>¿Por qué Bleach y no otra cosa?</h2>
-        <p>
-          Porque ninguna otra serie combina tan bien: peleas épicas, bandas sonoras brutales, personajes rotos por dentro
-          y chistes en los peores momentos posibles.
-        </p>
+        <h2>¿Por qué Bleach?</h2>
         <ul class="hero-list">
-          <li>
-            <span>🔥</span>
-            <div><strong>Power-ups con estilo:</strong> aquí no es “me hice fuerte porque sí”; es <em>“despierta, zanpakutō”</em> y la pantalla se vuelve arte.</div>
-          </li>
-          <li>
-            <span>🧡</span>
-            <div><strong>Protagonista naranjo fosforescente:</strong> no lo pierdes de vista ni aunque cierres los ojos.</div>
-          </li>
-          <li>
-            <span>😈</span>
-            <div><strong>Villanos peligrosamente carismáticos:</strong> tú sabes que son malos… pero igual los citas.</div>
-          </li>
+          <li>🔥 Power-ups con estilo: cuando dicen "Bankai" TIEMBLA la pantalla.</li>
+          <li>🧡 Protagonista naranjo fosforescente imposible de perder.</li>
+          <li>😈 Villanos tan carismáticos que te confunden moralmente.</li>
         </ul>
-        <div class="cta-group">
-          <button class="btn-primary">
-            Empezar Bleach hoy 👀
-          </button>
-          <button class="btn-ghost">
-            <span>⏱️</span>
-            <span class="mini-text">“Solo veré un capítulo” (nadie jamás)</span>
-          </button>
-        </div>
+
+        <a href="https://www.disneyplus.com/es-py/browse/entity-c649c634-7f8d-48a9-ba72-48bd4b9c8419" target="_blank">
+          <button class="btn-primary">Ver Bleach ahora 👀</button>
+        </a>
       </div>
     </section>
 
-    <!-- Reasons -->
+    <!-- REASONS -->
     <section>
-      <h2 class="section-title">Razones científicamente irresponsables para verla</h2>
-      <p class="section-caption">
-        Estudio no aprobado por ninguna institución seria, pero 10/10 fans de Bleach lo recomiendan.
-      </p>
+      <h2>Razones científicamente irresponsables para verla</h2>
 
       <div class="reasons-grid">
-        <article class="card">
-          <div class="pill">Peligro de adicción</div>
-          <div class="card-icon">📺</div>
-          <h3 class="card-title">“Solo la saga Soul Society”</h3>
-          <p class="card-text">
-            Empiezas “solo para ver de qué se trata” y cuando te das cuenta estás discutiendo en internet qué Bankai es más
-            roto a las 3 a.m. con gente que no conoces.
-          </p>
-        </article>
-
-        <article class="card">
-          <div class="pill">Nivel de drip: ilegal</div>
-          <div class="card-icon">🧥</div>
-          <h3 class="card-title">Shinigamis con flow absurdo</h3>
-          <p class="card-text">
-            Capas negras, espadas enormes y miradas serias. Después de unos capítulos vas a querer ir al súper con kimono y
-            sandalias como si nada.
-          </p>
-        </article>
-
-        <article class="card">
-          <div class="pill">Daño emocional hermoso</div>
-          <div class="card-icon">💔</div>
-          <h3 class="card-title">Te ríes, te hypeas, te destruyes</h3>
-          <p class="card-text">
-            Bleach se especializa en: “jaja qué chistoso” → “¡vamos, Ichigo!” → “espera, por qué estoy llorando en arco
-            24”. Todo en menos de 20 minutos.
-          </p>
-        </article>
-
-        <article class="card">
-          <div class="pill">Estética peligrosa</div>
-          <div class="card-icon">🎧</div>
-          <h3 class="card-title">Soundtrack que te hace sentir protagonista</h3>
-          <p class="card-text">
-            Escuchas un tema de Bleach caminando por la calle y de pronto la vereda se siente como la entrada a la
-            Sociedad de Almas. Nadie te entiende, pero tú sí.
-          </p>
-        </article>
+        <div class="card">📺 Empiezas “solo por curiosidad” y terminas discutiendo Bankais a las 3am.</div>
+        <div class="card">🧥 Drip ilegal: gente en pijamas negras se ve mejor que uno con ropa cara.</div>
+        <div class="card">💔 Te ríes, te hypeas, te destruyes emocionalmente en 20 minutos.</div>
+        <div class="card">🎧 Escuchar “Number One” te convierte automáticamente en protagonista.</div>
       </div>
     </section>
 
-    <!-- Starter pack -->
+    <!-- STARTER PACK -->
     <section class="starter-pack">
       <div>
-        <h3>Bleach Starter Pack (modo chill)</h3>
-        <p>
-          No necesitas tanto para entrar al vicio, solo esto:
-        </p>
-        <ul class="starter-list">
-          <li>
-            <span>🛋️</span>
-            <div><strong>Un lugar cómodo:</strong> sillón, cama o ese rincón donde te haces bolita existencial.</div>
-          </li>
-          <li>
-            <span>🍿</span>
-            <div><strong>Snacks de confianza:</strong> porque vas a decir “uno más” varias veces.</div>
-          </li>
-          <li>
-            <span>📶</span>
-            <div><strong>Buen internet:</strong> nada duele más que un corte justo antes de un Bankai.</div>
-          </li>
-          <li>
-            <span>👀</span>
-            <div><strong>Mente abierta:</strong> aceptas shinigamis, hollows, almas, traiciones y peinados dudosos.</div>
-          </li>
-          <li>
-            <span>⏰</span>
-            <div><strong>Tiempo:</strong> o al menos la ilusión de tenerlo, porque lo vas a perder igual.</div>
-          </li>
+        <h3>Starter Pack</h3>
+        <ul>
+          <li>🛋️ Un sillón cómodo</li>
+          <li>🍿 Snacks infinitos</li>
+          <li>📶 Internet decente para el Bankai</li>
+          <li>👀 Mente abierta para hollows y traumas</li>
         </ul>
       </div>
 
       <div class="starter-image">
-        <!-- Cambia por otra imagen, por ejemplo, el elenco principal -->
-        <img src="img/bleach-squad.jpg" alt="Grupo de personajes de Bleach posando" class="starter-image-main">
-        <p class="starter-caption">
-          “No me encariñaré con tantos personajes” — declaración que quedará obsoleta en pocos capítulos.
-        </p>
+        <img src="img/bleach-squad.jpg">
       </div>
     </section>
 
-    <!-- Final CTA -->
+    <!-- FINAL CTA -->
     <section class="final-cta">
-      <h2>Entonces… ¿vemos Bleach o qué? 🤨</h2>
-      <p>
-        Tu yo del futuro ya está debatiendo openings favoritos y diciendo “Getsuga Tenshō” en voz baja.
-        Hazle un favor y empieza la serie.
-      </p>
-     <a href="https://www.disneyplus.com/es-py/browse/entity-c649c634-7f8d-48a9-ba72-48bd4b9c8419" target="_blank">
-  <button class="btn-primary">
-    Empezar Bleach hoy 👀
-  </button>
-</a>
+      <h2>Entonces… ¿la vemos o qué? 🤨</h2>
 
-      <p class="final-note">
-        Si después de unos capítulos no te gusta, al menos podrás decir con propiedad: “Bleach no es para mí”.
-        Pero si te atrapa… bienvenido al club de las ojeras felices.
+      <a href="https://www.disneyplus.com/es-py/browse/entity-c649c634-7f8d-48a9-ba72-48bd4b9c8419" target="_blank">
+        <button class="btn-primary">Ver Bleach en Disney+ 🚀</button>
+      </a>
+
+      <p style="margin-top: 1rem; opacity: 0.7;">
+        Si no te gusta… ok. Pero sabemos que te va a gustar.
       </p>
     </section>
+
   </div>
 </body>
-</html>
 
+</html>
