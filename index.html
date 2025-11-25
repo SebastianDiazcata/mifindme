@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karaoke - Un Problema Menos</title>
+
     <style>
         * {
             box-sizing: border-box;
@@ -12,126 +13,102 @@
         }
 
         body {
-            background: radial-gradient(circle at top, #1f2937 0%, #020617 55%, #000 100%);
-            color: #ffffff;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #111827, #0f172a 50%, #000 100%);
+            color: #fff;
+            font-family: "Poppins", system-ui, sans-serif;
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 30px 10px;
         }
 
-        .wrapper {
+        .card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(14px);
             width: 100%;
-            max-width: 720px;
-            background: rgba(15, 23, 42, 0.95);
+            max-width: 750px;
+            padding: 32px;
             border-radius: 24px;
-            padding: 24px 20px 28px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.55);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 4px;
-            font-size: 1.7rem;
+            font-size: 2rem;
+            margin-bottom: 6px;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 18px;
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: #9ca3af;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 22px;
         }
 
-        /* Estilo del reproductor */
         audio {
             width: 100%;
-            margin-bottom: 18px;
-            border-radius: 999px;
-            box-shadow: 0 0 18px rgba(45, 212, 191, 0.4);
+            margin-bottom: 22px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
         }
 
-        .hint {
-            font-size: 0.75rem;
-            text-align: center;
-            color: #9ca3af;
-            margin-bottom: 14px;
-        }
-
-        /* Contenedor de la letra */
-        #lyrics-container {
-            width: 100%;
-            max-height: 360px;
-            overflow-y: auto; /* Permite hacer scroll */
-            text-align: center;
-            padding: 16px 10px;
-            background: radial-gradient(circle at top, #0f172a 0%, #020617 70%);
-            border-radius: 16px;
-            box-shadow: inset 0 0 18px rgba(15, 23, 42, 0.9);
+        .lyrics-box {
+            background: rgba(15,23,42,0.6);
+            border-radius: 20px;
+            padding: 20px;
+            height: 380px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
             scroll-behavior: smooth;
-            position: relative;
         }
 
-        /* Estilo de cada línea */
         .line {
-            padding: 8px 4px;
-            font-size: 17px;
-            color: #9ca3af; /* Color apagado para líneas no activas */
-            transition: all 0.25s ease;
-            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            margin: 8px 0;
+            color: #9ca3af;
+            transition: 0.25s ease;
         }
 
         .line:hover {
-            color: #e5e7eb;
+            color: #e2e8f0;
+            cursor: pointer;
         }
 
-        /* Estilo de la línea ACTIVA (la que se está cantando) */
         .line.active {
-            color: #22c55e; /* Color brillante */
-            font-size: 21px;
-            font-weight: 700;
-            text-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+            color: #10d38d;
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 0 0 14px rgba(16, 211, 141, 0.8);
             transform: scale(1.04);
         }
 
         /* Scroll bonito */
-        #lyrics-container::-webkit-scrollbar {
+        .lyrics-box::-webkit-scrollbar {
             width: 6px;
         }
-        #lyrics-container::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.9);
-        }
-        #lyrics-container::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.8);
-            border-radius: 999px;
+        .lyrics-box::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
         }
     </style>
 </head>
-<body>
 
-    <div class="wrapper">
+<body>
+    <div class="card">
         <h1>Un Problema Menos</h1>
-        <h2>Karaoke no oficial - El Cuarteto de Nos</h2>
+        <h2>Karaoke no oficial – El Cuarteto de Nos</h2>
 
         <audio id="audio" controls>
-            <source src="Unproblemamenos.mp3" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
+            <source src="img/Unproblemamenos.mp3" type="audio/mpeg">
+            Tu navegador no soporta el reproductor de audio.
         </audio>
 
-        <p class="hint">
-            ⚠ Si el audio no suena, revisa que el archivo se llame exactamente <strong>Unproblemamenos.mp3</strong>
-            y esté en la misma carpeta que este HTML.
-        </p>
-
-        <div id="lyrics-container"></div>
+        <div class="lyrics-box" id="lyrics-container"></div>
     </div>
 
     <script>
-        // ARRAY DE TIEMPOS Y LETRA
         const lyricsData = [
             { time: 13.5, text: "Sé que piensan sin hablar" },
             { time: 15.0, text: "Que estorbo más que ayudar" },
@@ -180,45 +157,39 @@
             { time: 130.0, text: "Un problema menos, un problema menos" }
         ];
 
-        const container = document.getElementById('lyrics-container');
-        const audio = document.getElementById('audio');
+        const audio = document.getElementById("audio");
+        const container = document.getElementById("lyrics-container");
 
-        // 1. Cargar la letra en el HTML
-        lyricsData.forEach((line, index) => {
-            const div = document.createElement('div');
-            div.classList.add('line');
-            div.innerText = line.text;
-            div.id = `line-${index}`;
-            // Permite hacer clic en la letra para saltar a esa parte del audio
-            div.onclick = () => {
-                audio.currentTime = line.time;
-                audio.play();
-            };
+        // Generar líneas
+        lyricsData.forEach((l, i) => {
+            const div = document.createElement("div");
+            div.className = "line";
+            div.innerText = l.text;
+            div.onclick = () => { audio.currentTime = l.time; audio.play(); };
             container.appendChild(div);
         });
 
-        // 2. Sincronizar en tiempo real
-        audio.addEventListener('timeupdate', () => {
-            const currentTime = audio.currentTime;
+        // Sincronización
+        audio.addEventListener("timeupdate", () => {
+            const time = audio.currentTime;
+            let active = -1;
 
-            let activeIndex = -1;
             for (let i = 0; i < lyricsData.length; i++) {
-                if (currentTime >= lyricsData[i].time) {
-                    activeIndex = i;
-                } else {
-                    break;
-                }
+                if (time >= lyricsData[i].time) active = i;
+                else break;
             }
 
-            document.querySelectorAll('.line').forEach((line, index) => {
-                if (index === activeIndex) {
-                    line.classList.add('active');
-                    line.scrollIntoView({ behavior: "smooth", block: "center" });
+            document.querySelectorAll(".line").forEach((el, i) => {
+                if (i === active) {
+                    el.classList.add("active");
+                    el.scrollIntoView({ block: "center", behavior: "smooth" });
                 } else {
-                    line.classList.remove('active');
+                    el.classList.remove("active");
                 }
             });
         });
     </script>
+
 </body>
 </html>
+
