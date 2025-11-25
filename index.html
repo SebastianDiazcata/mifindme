@@ -1,301 +1,224 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Por qué NO debes romper una jaula de hámster y dármela a mí</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke - Un Problema Menos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #fef3c7, #f5f5f5 45%, #e5e7eb);
-      color: #111827;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
+        body {
+            background: radial-gradient(circle at top, #1f2937 0%, #020617 55%, #000 100%);
+            color: #ffffff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
 
-    .card {
-      background: white;
-      max-width: 900px;
-      width: 100%;
-      border-radius: 18px;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.16);
-      padding: 24px 22px 26px;
-      border: 2px solid #fbbf24;
-    }
+        .wrapper {
+            width: 100%;
+            max-width: 720px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            padding: 24px 20px 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            backdrop-filter: blur(18px);
+        }
 
-    h1 {
-      font-size: 1.9rem;
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 4px;
+            font-size: 1.7rem;
+        }
 
-    h1 span {
-      font-size: 1.8rem;
-    }
+        h2 {
+            text-align: center;
+            margin-bottom: 18px;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #9ca3af;
+        }
 
-    h2 {
-      font-size: 1.2rem;
-      margin: 1.4rem 0 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
+        /* Estilo del reproductor */
+        audio {
+            width: 100%;
+            margin-bottom: 18px;
+            border-radius: 999px;
+            box-shadow: 0 0 18px rgba(45, 212, 191, 0.4);
+        }
 
-    p {
-      margin-bottom: 0.4rem;
-      line-height: 1.5;
-      font-size: 0.98rem;
-    }
+        .hint {
+            font-size: 0.75rem;
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 14px;
+        }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      background: #fef3c7;
-      color: #92400e;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px dashed #fbbf24;
-      margin-bottom: 0.6rem;
-    }
+        /* Contenedor de la letra */
+        #lyrics-container {
+            width: 100%;
+            max-height: 360px;
+            overflow-y: auto; /* Permite hacer scroll */
+            text-align: center;
+            padding: 16px 10px;
+            background: radial-gradient(circle at top, #0f172a 0%, #020617 70%);
+            border-radius: 16px;
+            box-shadow: inset 0 0 18px rgba(15, 23, 42, 0.9);
+            scroll-behavior: smooth;
+            position: relative;
+        }
 
-    .pill strong {
-      font-weight: 700;
-    }
+        /* Estilo de cada línea */
+        .line {
+            padding: 8px 4px;
+            font-size: 17px;
+            color: #9ca3af; /* Color apagado para líneas no activas */
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
 
-    ul {
-      margin-left: 1.2rem;
-      margin-top: 0.1rem;
-      margin-bottom: 0.4rem;
-      font-size: 0.98rem;
-    }
+        .line:hover {
+            color: #e5e7eb;
+        }
 
-    li {
-      margin-bottom: 0.2rem;
-    }
+        /* Estilo de la línea ACTIVA (la que se está cantando) */
+        .line.active {
+            color: #22c55e; /* Color brillante */
+            font-size: 21px;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+            transform: scale(1.04);
+        }
 
-    .reason-box {
-      background: #f9fafb;
-      border-radius: 12px;
-      padding: 0.75rem 0.75rem 0.7rem;
-      border: 1px solid #e5e7eb;
-      margin-top: 0.3rem;
-    }
-
-    .reason-title {
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.15rem;
-    }
-
-    .reason-title span {
-      font-size: 1.2rem;
-    }
-
-    .highlight {
-      font-weight: 600;
-      color: #b45309;
-    }
-
-    .footer-note {
-      margin-top: 0.7rem;
-      font-size: 0.85rem;
-      color: #6b7280;
-    }
-
-    .button-row {
-      margin-top: 0.8rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: 7px 13px;
-      font-size: 0.9rem;
-      cursor: default;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #fbbf24, #f97316);
-      color: #111827;
-      box-shadow: 0 8px 20px rgba(248, 185, 48, 0.5);
-    }
-
-    .btn-ghost {
-      background: #f3f4f6;
-      color: #374151;
-      border: 1px solid #d1d5db;
-    }
-
-    @media (min-width: 640px) {
-      .card {
-        padding: 28px 30px 30px;
-      }
-      h1 {
-        font-size: 2rem;
-      }
-    }
-  </style>
+        /* Scroll bonito */
+        #lyrics-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #lyrics-container::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.9);
+        }
+        #lyrics-container::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.8);
+            border-radius: 999px;
+        }
+    </style>
 </head>
 <body>
-  <main class="card">
-    <h1>
-      <span>🐹</span>
-      Razones por las que NO debes romper una jaula de hámster y dármela a mí
-    </h1>
-    <p class="pill">
-      <strong>Resumen rápido:</strong> si se rompe una jaula, el que más pierde es el hámster.
-    </p>
 
-    <p>
-      Antes de hacer cualquier cosa con una jaula de hámster, hay que pensar en lo más importante:
-      <span class="highlight">el bienestar del animal</span>.  
-      Romper una jaula solo para regalármela a mí no es buena idea por varias razones:
-    </p>
+    <div class="wrapper">
+        <h1>Un Problema Menos</h1>
+        <h2>Karaoke no oficial - El Cuarteto de Nos</h2>
 
-    <!-- Razón 1 -->
-    <section class="reason-box">
-      <div class="reason-title">
-        <span>1️⃣</span>
-        <span>El hámster se queda sin hogar seguro</span>
-      </div>
-      <p>
-        La jaula no es solo “un objeto”: es la casa del hámster. Ahí duerme, come y se siente protegido.
-        Si la rompes:
-      </p>
-      <ul>
-        <li>El hámster puede escaparse y perderse.</li>
-        <li>Puede sufrir estrés extremo por no tener refugio.</li>
-        <li>Queda expuesto a otros animales, golpes o caídas.</li>
-      </ul>
-      <p>
-        Un animal pequeño necesita un entorno estable, no cambios bruscos ni destrucción de su espacio.
-      </p>
-    </section>
+        <audio id="audio" controls>
+            <source src="Unproblemamenos.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
 
-    <!-- Razón 2 -->
-    <section class="reason-box">
-      <div class="reason-title">
-        <span>2️⃣</span>
-        <span>Peligro físico: partes filosas y plástico roto</span>
-      </div>
-      <p>
-        Al romper la jaula se generan bordes cortantes, alambres sueltos y trozos de plástico:
-      </p>
-      <ul>
-        <li>El hámster puede cortarse patas, nariz o boca.</li>
-        <li>Una persona también puede salir lastimada al manipular los restos.</li>
-        <li>Si el hámster muerde o traga pedazos, puede ser muy peligroso para su salud.</li>
-      </ul>
-      <p>
-        La idea nunca debe ser poner en riesgo la integridad de nadie, ni del animal ni de las personas.
-      </p>
-    </section>
+        <p class="hint">
+            ⚠ Si el audio no suena, revisa que el archivo se llame exactamente <strong>Unproblemamenos.mp3</strong>
+            y esté en la misma carpeta que este HTML.
+        </p>
 
-    <!-- Razón 3 -->
-    <section class="reason-box">
-      <div class="reason-title">
-        <span>3️⃣</span>
-        <span>Responsabilidad y cuidado animal</span>
-      </div>
-      <p>
-        Tener un hámster implica responsabilidad. Eso incluye:
-      </p>
-      <ul>
-        <li>Cuidar su espacio de vida, no destruirlo.</li>
-        <li>Buscar mejoras, no dejarlo peor de lo que estaba.</li>
-        <li>Tomar decisiones pensando en su bienestar, no solo en nuestras ganas o necesidades.</li>
-      </ul>
-      <p>
-        Si alguien ya no puede hacerse cargo del hámster, lo correcto es
-        <span class="highlight">buscarle un nuevo hogar responsable</span>, no destruir la jaula.
-      </p>
-    </section>
-
-    <!-- Razón 4 -->
-    <section class="reason-box">
-      <div class="reason-title">
-        <span>4️⃣</span>
-        <span>No tiene sentido práctico para mí</span>
-      </div>
-      <p>
-        Si me das una jaula rota:
-      </p>
-      <ul>
-        <li>Voy a tener que repararla o comprar otra de todas formas.</li>
-        <li>No es segura para ningún hámster hasta que se arregle por completo.</li>
-        <li>En muchos casos, sale más a cuenta comprar una jaula nueva que arreglar una dañada.</li>
-      </ul>
-      <p>
-        Si la idea es ayudarme, lo mejor es:
-        <span class="highlight">o darme una jaula en buen estado, o no dañarla y pensar bien qué hacer</span>.
-      </p>
-    </section>
-
-    <!-- Razón 5 -->
-    <section class="reason-box">
-      <div class="reason-title">
-        <span>5️⃣</span>
-        <span>Hay alternativas mucho mejores</span>
-      </div>
-      <p>En vez de romper la jaula para dármela, se pueden hacer cosas como:</p>
-      <ul>
-        <li>Donar la jaula completa (si ya no usarán al hámster, con previa adopción responsable).</li>
-        <li>Venderla o regalarla a alguien que la necesite y pueda cuidar bien al animal.</li>
-        <li>Hablar conmigo antes y coordinar una forma segura de trasladar al hámster y su jaula.</li>
-      </ul>
-      <p>
-        Todos ganan: el hámster está seguro, tú te deshaces de algo de forma responsable y yo
-        recibo algo útil sin fomentar daño.
-      </p>
-    </section>
-
-    <!-- Cierre -->
-    <section>
-      <h2>Entonces… ¿qué hacemos mejor? 🧠</h2>
-      <p>
-        Si la idea es que yo tenga una jaula, lo ideal es:
-      </p>
-      <ul>
-        <li>No romper nada: la jaula debe llegar entera.</li>
-        <li>Pensar primero en dónde quedará el hámster y quién lo cuidará.</li>
-        <li>Elegir siempre la opción que cause menos estrés y daño al animal.</li>
-      </ul>
-      <p>
-        Romper la jaula solo para dármela a mí no es necesario, no es seguro y va en contra
-        del bienestar del hámster.  
-        <span class="highlight">Podemos encontrar una forma responsable de ayudarme sin perjudicar a ningún animal.</span>
-      </p>
-    </section>
-
-    <div class="button-row">
-      <button class="btn btn-primary">✅ Cuidar al hámster primero</button>
-      <button class="btn btn-ghost">💬 Hablemos antes de decidir</button>
+        <div id="lyrics-container"></div>
     </div>
 
-    <p class="footer-note">
-      Nota: Este texto está pensado para convencer con lógica y cuidado. Si aún quieres regalar una jaula,
-      que sea <strong>sin romperla</strong> y asegurando que el hámster tendrá un entorno seguro y responsable.
-    </p>
-  </main>
+    <script>
+        // ARRAY DE TIEMPOS Y LETRA
+        const lyricsData = [
+            { time: 13.5, text: "Sé que piensan sin hablar" },
+            { time: 15.0, text: "Que estorbo más que ayudar" },
+            { time: 16.5, text: "Y que soy solo un problema" },
+            { time: 18.0, text: "Y que por mi forma de ser" },
+            { time: 19.5, text: "Solo logro entorpecer" },
+            { time: 21.0, text: "Sus anhelos y sus metas" },
+            { time: 23.0, text: "Soy un conflicto, parece ser el veredicto" },
+            { time: 26.0, text: "Y que a complicar las situaciones soy adicto" },
+            { time: 29.0, text: "Una carga que pesa, y ese peso hay que sufrir" },
+            { time: 32.0, text: "No me lo dicen, pero me lo hacen sentir" },
+            { time: 35.0, text: "Soy la mosca en su sopa, soy la polilla en su ropa" },
+            { time: 38.0, text: "El viento que nunca les sopla en la popa" },
+            { time: 41.0, text: "Soy la cicatriz que avergüenza y hace esconder sus caras" },
+            { time: 44.0, text: "Soy sus secretos publicados en primera plana" },
+            { time: 47.0, text: "Y el día que tenga que irme lejos" },
+            { time: 50.0, text: "Y pase a estar solamente en sueños" },
+            { time: 53.0, text: "Podrá servir o no de consuelo" },
+            { time: 56.0, text: "Que al menos seré un problema menos" },
+            { time: 59.0, text: "Un problema menos, un problema menos" },
+            { time: 62.0, text: "Soy el obstáculo a salvar" },
+            { time: 64.0, text: "La excusa que suelen usar" },
+            { time: 65.5, text: "Para ocultar sus decepciones" },
+            { time: 68.0, text: "Soy lo que intentan esconder" },
+            { time: 70.0, text: "El espejo en que no quieren ver" },
+            { time: 71.5, text: "Todas sus frustraciones" },
+            { time: 74.0, text: "Puedo olfatearles el miedo ante mis desacatos" },
+            { time: 77.0, text: "Hace rato sé que soy la piedra en sus zapatos" },
+            { time: 80.0, text: "Y mi alegato parece algo extraño" },
+            { time: 83.0, text: "Nos hace daño quien nos quiere y no quien quiere hacernos daño" },
+            { time: 86.0, text: "Ven mis defectos con microscopio" },
+            { time: 89.0, text: "Ven el pelo en ojo ajeno y no el ladrillo en el propio" },
+            { time: 92.0, text: "Y si les molesta aguantar mi presencia" },
+            { time: 94.0, text: "Entonces si no brillo yo, brillará mi ausencia" },
+            { time: 96.0, text: "Y el día que tenga que irme lejos" },
+            { time: 99.0, text: "Y pase a estar solamente en sueños" },
+            { time: 102.0, text: "Podrá servir o no de consuelo" },
+            { time: 105.0, text: "Que al menos seré un problema menos" },
+            { time: 108.0, text: "Un problema menos, un problema menos" },
+            { time: 111.0, text: "Y el día que tenga que irme lejos" },
+            { time: 114.0, text: "Y pase a estar solamente en sueños" },
+            { time: 117.0, text: "Podrá servir o no de consuelo" },
+            { time: 120.0, text: "Que al menos seré un problema menos" },
+            { time: 123.0, text: "Un problema menos, un problema menos" },
+            { time: 126.0, text: "Un problema menos, un problema menos" },
+            { time: 130.0, text: "Un problema menos, un problema menos" }
+        ];
+
+        const container = document.getElementById('lyrics-container');
+        const audio = document.getElementById('audio');
+
+        // 1. Cargar la letra en el HTML
+        lyricsData.forEach((line, index) => {
+            const div = document.createElement('div');
+            div.classList.add('line');
+            div.innerText = line.text;
+            div.id = `line-${index}`;
+            // Permite hacer clic en la letra para saltar a esa parte del audio
+            div.onclick = () => {
+                audio.currentTime = line.time;
+                audio.play();
+            };
+            container.appendChild(div);
+        });
+
+        // 2. Sincronizar en tiempo real
+        audio.addEventListener('timeupdate', () => {
+            const currentTime = audio.currentTime;
+
+            let activeIndex = -1;
+            for (let i = 0; i < lyricsData.length; i++) {
+                if (currentTime >= lyricsData[i].time) {
+                    activeIndex = i;
+                } else {
+                    break;
+                }
+            }
+
+            document.querySelectorAll('.line').forEach((line, index) => {
+                if (index === activeIndex) {
+                    line.classList.add('active');
+                    line.scrollIntoView({ behavior: "smooth", block: "center" });
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
