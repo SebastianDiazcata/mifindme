@@ -1,300 +1,354 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <title>Vean Bleach</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at top, #1f2937, #020617, #000);
-      color: #f9fafb;
-      min-height: 100vh;
-    }
-
-    /* Botón mute */
-    #mute-btn {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(0, 0, 0, 0.55);
-      padding: 10px 14px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 20px;
-      z-index: 9999;
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(6px);
-      transition: 0.2s;
-    }
-
-    #mute-btn:hover {
-      transform: scale(1.1);
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 3rem;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    h1 {
-      font-size: clamp(2.4rem, 3.6vw, 3.2rem);
-      font-weight: 800;
-      margin-bottom: 0.7rem;
-    }
-
-    .accent {
-      background: linear-gradient(120deg, #38bdf8, #fb923c);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .subtitle {
-      max-width: 620px;
-      margin: 1rem auto;
-      font-weight: 300;
-      color: #e5e7eb;
-      font-size: 1rem;
-    }
-
-    /* HERO */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 1.8rem;
-      align-items: center;
-      margin-bottom: 3rem;
-    }
-
-    .hero-image-wrapper {
-      position: relative;
-      border-radius: 1.7rem;
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: #0f172a;
-      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
-    }
-
-    .hero-image-main {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-    }
-
-    .hero-tag {
-      position: absolute;
-      bottom: 0.8rem;
-      left: 0.9rem;
-      padding: 0.45rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-    }
-
-    .hero-mini {
-      position: absolute;
-      top: 0.9rem;
-      right: 0.9rem;
-      width: 95px;
-      height: 95px;
-      border-radius: 1rem;
-      overflow: hidden;
-      border: 2px solid rgba(248, 250, 252, 0.9);
-    }
-
-    .hero-mini img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .hero-text {
-      background: rgba(56, 189, 248, 0.07);
-      padding: 1.5rem;
-      border-radius: 1.5rem;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
-    }
-
-    .hero-list {
-      margin-top: 1rem;
-      list-style: none;
-      display: grid;
-      gap: 0.5rem;
-    }
-
-    .btn-primary {
-      border: none;
-      cursor: pointer;
-      padding: 0.75rem 1.6rem;
-      border-radius: 999px;
-      font-weight: 600;
-      background: linear-gradient(120deg, #fb923c, #f97316);
-      color: #111;
-      margin-top: 1rem;
-      transition: 0.2s;
-    }
-
-    .btn-primary:hover {
-      transform: scale(1.05);
-      filter: brightness(1.1);
-    }
-
-    /* REASONS GRID */
-    .reasons-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .card {
-      background: rgba(15, 23, 42, 0.9);
-      padding: 1rem;
-      border-radius: 1.2rem;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-    }
-
-    /* STARTER PACK */
-    .starter-pack {
-      background: linear-gradient(120deg, rgba(30, 64, 175, 0.95), rgba(67, 56, 202, 0.95));
-      padding: 1.4rem;
-      border-radius: 1.5rem;
-      margin-bottom: 2.3rem;
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 1.4rem;
-      border: 1px solid rgba(191, 219, 254, 0.6);
-    }
-
-    .starter-image img {
-      width: 100%;
-      border-radius: 1rem;
-    }
-
-    .final-cta {
-      text-align: center;
-    }
-
-    @media (max-width: 860px) {
-      .hero,
-      .starter-pack {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Imprime3D - Servicio profesional de impresión 3D. Cotiza tus proyectos, prototipos y piezas personalizadas. Calidad premium y entregas rápidas.">
+  <title>Imprime3D | Impresión 3D Profesional – Cotización y Productos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <!-- 🎵 AUDIO DE FONDO -->
-  <audio id="bg-music" src="img/rain.mp3" autoplay loop></audio>
-
-  <!-- 🔇 BOTÓN DE MUTE -->
-  <div id="mute-btn">🔊</div>
-
-  <script>
-    const music = document.getElementById("bg-music");
-    const btn = document.getElementById("mute-btn");
-
-    document.addEventListener("click", () => {
-      if (music.paused) music.play().catch(() => { });
-    }, { once: true });
-
-    btn.addEventListener("click", () => {
-      music.muted = !music.muted;
-      btn.textContent = music.muted ? "🔇" : "🔊";
-    });
-  </script>
-
-  <div class="container">
-
-    <header>
-      <h1>Vean <span class="accent">BLEACH</span> Mierda</h1>
-      <p class="subtitle">Si tu vida está muy tranquila… arruínala responsablemente con shinigamis.</p>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-image-wrapper">
-        <img src="img/bleach-ichigo.jpg" class="hero-image-main">
-        <div class="hero-tag">⚔️ “Solo un capítulo” — mentira clásica desde 2004</div>
-        <div class="hero-mini"><img src="img/bleach-soul-society.jpg"></div>
-      </div>
-
-      <div class="hero-text">
-        <h2>¿Por qué Bleach?</h2>
-        <ul class="hero-list">
-          <li>🔥 Power-ups con estilo: cuando dicen "Bankai" TIEMBLA la pantalla.</li>
-          <li>🧡 Protagonista naranjo fosforescente imposible de perder.</li>
-          <li>😈 Villanos tan carismáticos que te confunden moralmente.</li>
-        </ul>
-
-        <a href="https://www.disneyplus.com/es-py/browse/entity-c649c634-7f8d-48a9-ba72-48bd4b9c8419" target="_blank">
-          <button class="btn-primary">Ver Bleach ahora 👀</button>
-        </a>
-      </div>
-    </section>
-
-    <!-- REASONS -->
-    <section>
-      <h2>Razones científicamente irresponsables para verla</h2>
-
-      <div class="reasons-grid">
-        <div class="card">📺 Empiezas “solo por curiosidad” y terminas discutiendo Bankais a las 3am.</div>
-        <div class="card">🧥 Drip ilegal: gente en pijamas negras se ve mejor que uno con ropa cara.</div>
-        <div class="card">💔 Te ríes, te hypeas, te destruyes emocionalmente en 20 minutos.</div>
-        <div class="card">🎧 Escuchar “Number One” te convierte automáticamente en protagonista.</div>
-      </div>
-    </section>
-
-    <!-- STARTER PACK -->
-    <section class="starter-pack">
-      <div>
-        <h3>Starter Pack</h3>
-        <ul>
-          <li>🛋️ Un sillón cómodo</li>
-          <li>🍿 Snacks infinitos</li>
-          <li>📶 Internet decente para el Bankai</li>
-          <li>👀 Mente abierta para hollows y traumas</li>
-        </ul>
-      </div>
-
-      <div class="starter-image">
-        <img src="img/bleach-squad.jpg">
-      </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="final-cta">
-      <h2>Entonces… ¿la vemos o qué? 🤨</h2>
-
-      <a href="https://www.disneyplus.com/es-py/browse/entity-c649c634-7f8d-48a9-ba72-48bd4b9c8419" target="_blank">
-        <button class="btn-primary">Ver Bleach en Disney+ 🚀</button>
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="logo">
+        <div class="logo-icon">🖨</div>
+        Imprime3D
       </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#cotizar">Cotizar</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#cotizar" class="nav-cta">Solicitar Cotización</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú">☰</button>
+    </div>
+  </nav>
 
-      <p style="margin-top: 1rem; opacity: 0.7;">
-        Si no te gusta… ok. Pero sabemos que te va a gustar.
-      </p>
-    </section>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg">
+      <img src="images/hero.png" alt="Impresión 3D">
+    </div>
+    <div class="hero-orb hero-orb--1"></div>
+    <div class="hero-orb hero-orb--2"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge"><span></span> Tecnología de vanguardia</div>
+        <h1>Tus ideas cobran <span class="gradient-text">vida en 3D</span></h1>
+        <p>Transformamos tus diseños en realidad con tecnología de impresión 3D de última generación. Desde prototipos hasta producción en serie.</p>
+        <div class="hero-actions">
+          <a href="#cotizar" class="btn-primary">Cotizar Proyecto →</a>
+          <a href="#productos" class="btn-secondary">Ver Productos</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="images/hero.png" alt="Productos impresos en 3D">
+        <div class="hero-float-card hero-float-card--1">
+          <div class="number">24h</div>
+          <div style="color:var(--text-secondary);font-size:.8rem;">Entrega express</div>
+        </div>
+        <div class="hero-float-card hero-float-card--2">
+          <div class="number">0.05mm</div>
+          <div style="color:var(--text-secondary);font-size:.8rem;">Resolución mínima</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <!-- ═══ STATS ═══ -->
+  <section class="stats">
+    <div class="container">
+      <div class="stat-item">
+        <div class="stat-number" data-target="1500" data-suffix="+">0</div>
+        <div class="stat-label">Proyectos Completados</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="350" data-suffix="+">0</div>
+        <div class="stat-label">Clientes Satisfechos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="12">0</div>
+        <div class="stat-label">Materiales Disponibles</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="5">0</div>
+        <div class="stat-label">Años de Experiencia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRODUCTOS ═══ -->
+  <section class="products" id="productos">
+    <div class="container">
+      <h2 class="section-title">Nuestros Productos</h2>
+      <p class="section-subtitle">Explora nuestro catálogo de piezas y servicios de impresión 3D. ¿No encuentras lo que buscas? ¡Cotiza tu diseño personalizado!</p>
+      <div class="products-grid">
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="images/arquitectura.png" alt="Maquetas Arquitectónicas">
+            <span class="product-tag">Popular</span>
+          </div>
+          <div class="product-info">
+            <h3>Maquetas Arquitectónicas</h3>
+            <p>Modelos a escala de alta precisión para proyectos de arquitectura y urbanismo.</p>
+            <div class="product-price">
+              <div><span class="price">$25.000</span> <span class="unit">CLP / desde</span></div>
+              <button class="btn-quote-sm">Cotizar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="images/mecanica.png" alt="Piezas Mecánicas">
+            <span class="product-tag">Industrial</span>
+          </div>
+          <div class="product-info">
+            <h3>Piezas Mecánicas</h3>
+            <p>Engranajes, conectores y componentes funcionales en materiales de alta resistencia.</p>
+            <div class="product-price">
+              <div><span class="price">$8.000</span> <span class="unit">CLP / desde</span></div>
+              <button class="btn-quote-sm">Cotizar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="images/figuras.png" alt="Figuras y Miniaturas">
+            <span class="product-tag">Gaming</span>
+          </div>
+          <div class="product-info">
+            <h3>Figuras y Miniaturas</h3>
+            <p>Figuras detalladas para juegos de mesa, coleccionismo y decoración personal.</p>
+            <div class="product-price">
+              <div><span class="price">$5.000</span> <span class="unit">CLP / desde</span></div>
+              <button class="btn-quote-sm">Cotizar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="images/accesorios.png" alt="Accesorios Tech">
+          </div>
+          <div class="product-info">
+            <h3>Accesorios Tech</h3>
+            <p>Carcasas, soportes y accesorios personalizados para tus dispositivos favoritos.</p>
+            <div class="product-price">
+              <div><span class="price">$6.500</span> <span class="unit">CLP / desde</span></div>
+              <button class="btn-quote-sm">Cotizar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="images/prototipos.png" alt="Prototipos Industriales">
+            <span class="product-tag">Pro</span>
+          </div>
+          <div class="product-info">
+            <h3>Prototipos Industriales</h3>
+            <p>Prototipos funcionales para validación de diseño y pruebas de ingeniería.</p>
+            <div class="product-price">
+              <div><span class="price">$15.000</span> <span class="unit">CLP / desde</span></div>
+              <button class="btn-quote-sm">Cotizar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="images/decoracion.png" alt="Decoración y Hogar">
+            <span class="product-tag">Nuevo</span>
+          </div>
+          <div class="product-info">
+            <h3>Decoración y Hogar</h3>
+            <p>Jarrones, lámparas y arte mural con diseños únicos e irrepetibles.</p>
+            <div class="product-price">
+              <div><span class="price">$12.000</span> <span class="unit">CLP / desde</span></div>
+              <button class="btn-quote-sm">Cotizar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICIOS ═══ -->
+  <section class="services" id="servicios">
+    <div class="container">
+      <h2 class="section-title">Nuestros Servicios</h2>
+      <p class="section-subtitle">Ofrecemos soluciones completas de impresión 3D para particulares y empresas.</p>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">🎨</div>
+          <h3>Diseño 3D</h3>
+          <p>Modelamos tu idea desde cero o adaptamos tu archivo para impresión óptima.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">⚙️</div>
+          <h3>Prototipado Rápido</h3>
+          <p>Iteraciones rápidas para validar tus diseños antes de producción final.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">📦</div>
+          <h3>Producción en Serie</h3>
+          <p>Lotes pequeños y medianos con consistencia de calidad garantizada.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🔧</div>
+          <h3>Post-Procesado</h3>
+          <p>Lijado, pintura, acetona y acabados profesionales para tus piezas.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">📐</div>
+          <h3>Escaneo 3D</h3>
+          <p>Digitalizamos objetos físicos para replicarlos o modificarlos digitalmente.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🚚</div>
+          <h3>Envíos a Todo Chile</h3>
+          <p>Despacho seguro a todo el país con seguimiento en tiempo real.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COTIZACIÓN ═══ -->
+  <section class="quote" id="cotizar">
+    <div class="container">
+      <div class="quote-wrapper reveal">
+        <div class="quote-info">
+          <h2>Solicita tu <span class="gradient-text">Cotización</span></h2>
+          <p>Completa el formulario y te enviaremos una cotización detallada en menos de 24 horas.</p>
+          <ul class="quote-features">
+            <li><span class="check">✓</span> Cotización sin compromiso</li>
+            <li><span class="check">✓</span> Respuesta en menos de 24 horas</li>
+            <li><span class="check">✓</span> Asesoría gratuita en materiales</li>
+            <li><span class="check">✓</span> Archivos STL, OBJ, STEP aceptados</li>
+            <li><span class="check">✓</span> Descuentos por volumen</li>
+            <li><span class="check">✓</span> Garantía de calidad en cada pieza</li>
+          </ul>
+        </div>
+        <form class="quote-form" id="quote-form">
+          <!-- FormSubmit.co config -->
+          <input type="hidden" name="_subject" value="Nueva Cotización - Imprime3D">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="text" name="_honey" style="display:none">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Nombre completo *</label>
+              <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="company">Empresa</label>
+              <input type="text" id="company" name="company" placeholder="Nombre de empresa">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Correo electrónico *</label>
+              <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Teléfono</label>
+              <input type="tel" id="phone" name="phone" placeholder="+56 9 1234 5678">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="service">Tipo de servicio *</label>
+              <select id="service" name="service" required>
+                <option value="">Seleccionar...</option>
+                <option value="prototipo">Prototipado</option>
+                <option value="produccion">Producción en serie</option>
+                <option value="diseno">Diseño 3D</option>
+                <option value="escaneo">Escaneo 3D</option>
+                <option value="personalizado">Pieza personalizada</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="material">Material preferido</label>
+              <select id="material" name="material">
+                <option value="">Seleccionar...</option>
+                <option value="pla">PLA</option>
+                <option value="abs">ABS</option>
+                <option value="petg">PETG</option>
+                <option value="tpu">TPU (Flexible)</option>
+                <option value="nylon">Nylon</option>
+                <option value="resina">Resina</option>
+                <option value="otro">Otro / No estoy seguro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Cantidad estimada</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Ej: 10 unidades" min="1">
+          </div>
+          <div class="form-group">
+            <label for="details">Detalles del proyecto *</label>
+            <textarea id="details" name="details" placeholder="Describe tu proyecto: dimensiones, uso, acabado deseado, adjunta link a archivo si es posible..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="btn-submit">Enviar Solicitud de Cotización →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACTO ═══ -->
+  <section class="contact" id="contacto">
+    <div class="container">
+      <h2 class="section-title">Contáctanos</h2>
+      <p class="section-subtitle">¿Tienes preguntas? Estamos aquí para ayudarte con tu proyecto.</p>
+      <div class="contact-grid">
+        <div class="contact-card reveal">
+          <div class="icon">📧</div>
+          <h3>Correo Electrónico</h3>
+          <p><a href="mailto:sebadiazlobos@gmail.com">sebadiazlobos@gmail.com</a></p>
+        </div>
+        <div class="contact-card reveal">
+          <div class="icon">📱</div>
+          <h3>WhatsApp</h3>
+          <p><a href="https://wa.me/56912345678" target="_blank">+56 9 1234 5678</a></p>
+        </div>
+        <div class="contact-card reveal">
+          <div class="icon">📍</div>
+          <h3>Ubicación</h3>
+          <p>Santiago, Chile<br>Retiro en taller disponible</p>
+        </div>
+        <div class="contact-card reveal">
+          <div class="icon">🕐</div>
+          <h3>Horario</h3>
+          <p>Lun - Vie: 9:00 - 18:00<br>Sáb: 10:00 - 14:00</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Imprime3D. Todos los derechos reservados.</p>
+      <ul class="footer-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#cotizar">Cotizar</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
 </body>
-
 </html>
