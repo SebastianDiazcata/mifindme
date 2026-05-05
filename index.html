@@ -1,354 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Imprime3D - Servicio profesional de impresión 3D. Cotiza tus proyectos, prototipos y piezas personalizadas. Calidad premium y entregas rápidas.">
-  <title>Imprime3D | Impresión 3D Profesional – Cotización y Productos</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imprime3D | Impresión 3D a todo color para tus ideas</title>
+    <meta name="description" content="Servicio de impresión 3D para particulares y PYMES. Regalos personalizados, merchandising y decoración en alta calidad.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts: Inter para un look moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons para iconos modernos -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
 
-  <!-- ═══ NAVBAR ═══ -->
-  <nav class="navbar" id="navbar">
-    <div class="container">
-      <a href="#" class="logo">
-        <div class="logo-icon">🖨</div>
-        Imprime3D
-      </a>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#productos">Productos</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#cotizar">Cotizar</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-      <a href="#cotizar" class="nav-cta">Solicitar Cotización</a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Menú">☰</button>
-    </div>
-  </nav>
-
-  <!-- ═══ HERO ═══ -->
-  <section class="hero" id="inicio">
-    <div class="hero-bg">
-      <img src="images/hero.png" alt="Impresión 3D">
-    </div>
-    <div class="hero-orb hero-orb--1"></div>
-    <div class="hero-orb hero-orb--2"></div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge"><span></span> Tecnología de vanguardia</div>
-        <h1>Tus ideas cobran <span class="gradient-text">vida en 3D</span></h1>
-        <p>Transformamos tus diseños en realidad con tecnología de impresión 3D de última generación. Desde prototipos hasta producción en serie.</p>
-        <div class="hero-actions">
-          <a href="#cotizar" class="btn-primary">Cotizar Proyecto →</a>
-          <a href="#productos" class="btn-secondary">Ver Productos</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <img src="images/hero.png" alt="Productos impresos en 3D">
-        <div class="hero-float-card hero-float-card--1">
-          <div class="number">24h</div>
-          <div style="color:var(--text-secondary);font-size:.8rem;">Entrega express</div>
-        </div>
-        <div class="hero-float-card hero-float-card--2">
-          <div class="number">0.05mm</div>
-          <div style="color:var(--text-secondary);font-size:.8rem;">Resolución mínima</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ STATS ═══ -->
-  <section class="stats">
-    <div class="container">
-      <div class="stat-item">
-        <div class="stat-number" data-target="1500" data-suffix="+">0</div>
-        <div class="stat-label">Proyectos Completados</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="350" data-suffix="+">0</div>
-        <div class="stat-label">Clientes Satisfechos</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="12">0</div>
-        <div class="stat-label">Materiales Disponibles</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="5">0</div>
-        <div class="stat-label">Años de Experiencia</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ PRODUCTOS ═══ -->
-  <section class="products" id="productos">
-    <div class="container">
-      <h2 class="section-title">Nuestros Productos</h2>
-      <p class="section-subtitle">Explora nuestro catálogo de piezas y servicios de impresión 3D. ¿No encuentras lo que buscas? ¡Cotiza tu diseño personalizado!</p>
-      <div class="products-grid">
-
-        <div class="product-card reveal">
-          <div class="product-img">
-            <img src="images/arquitectura.png" alt="Maquetas Arquitectónicas">
-            <span class="product-tag">Popular</span>
-          </div>
-          <div class="product-info">
-            <h3>Maquetas Arquitectónicas</h3>
-            <p>Modelos a escala de alta precisión para proyectos de arquitectura y urbanismo.</p>
-            <div class="product-price">
-              <div><span class="price">$25.000</span> <span class="unit">CLP / desde</span></div>
-              <button class="btn-quote-sm">Cotizar</button>
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="ph-fill ph-cube"></i> Imprime<span>3D</span>
             </div>
-          </div>
+            <nav class="nav-links">
+                <a href="#servicios">¿Qué hacemos?</a>
+                <a href="#galeria">Galería</a>
+                <a href="#como-funciona">Cómo funciona</a>
+            </nav>
+            <a href="https://wa.me/56989758475?text=¡Hola!%20Vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20cotizar%20una%20impresión%203D..." target="_blank" class="btn-primary small">
+                <i class="ph ph-whatsapp-logo"></i> Cotizar
+            </a>
         </div>
+    </header>
 
-        <div class="product-card reveal">
-          <div class="product-img">
-            <img src="images/mecanica.png" alt="Piezas Mecánicas">
-            <span class="product-tag">Industrial</span>
-          </div>
-          <div class="product-info">
-            <h3>Piezas Mecánicas</h3>
-            <p>Engranajes, conectores y componentes funcionales en materiales de alta resistencia.</p>
-            <div class="product-price">
-              <div><span class="price">$8.000</span> <span class="unit">CLP / desde</span></div>
-              <button class="btn-quote-sm">Cotizar</button>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="badge">Nuevo: Impresión Multicolor</div>
+            <h1>Tus ideas, en <span>3D</span> y a todo color.</h1>
+            <p>Damos vida a tus diseños. Desde regalos únicos y decoración para tu hogar, hasta merchandising personalizado para tu PYME. Fácil, rápido y sin complicaciones.</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/56989758475?text=¡Hola!%20Vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20cotizar%20una%20impresión%203D..." target="_blank" class="btn-primary large pulse">
+                    <i class="ph ph-whatsapp-logo"></i> Cotizar por WhatsApp
+                </a>
+                <a href="#servicios" class="btn-secondary large">Ver ejemplos</a>
             </div>
-          </div>
         </div>
-
-        <div class="product-card reveal">
-          <div class="product-img">
-            <img src="images/figuras.png" alt="Figuras y Miniaturas">
-            <span class="product-tag">Gaming</span>
-          </div>
-          <div class="product-info">
-            <h3>Figuras y Miniaturas</h3>
-            <p>Figuras detalladas para juegos de mesa, coleccionismo y decoración personal.</p>
-            <div class="product-price">
-              <div><span class="price">$5.000</span> <span class="unit">CLP / desde</span></div>
-              <button class="btn-quote-sm">Cotizar</button>
+        <div class="hero-image">
+            <div class="glass-card">
+                <img src="assets/cute_figure.png" alt="Figura 3D colorida impresa con Bambu Lab">
             </div>
-          </div>
         </div>
+    </section>
 
-        <div class="product-card reveal">
-          <div class="product-img">
-            <img src="images/accesorios.png" alt="Accesorios Tech">
-          </div>
-          <div class="product-info">
-            <h3>Accesorios Tech</h3>
-            <p>Carcasas, soportes y accesorios personalizados para tus dispositivos favoritos.</p>
-            <div class="product-price">
-              <div><span class="price">$6.500</span> <span class="unit">CLP / desde</span></div>
-              <button class="btn-quote-sm">Cotizar</button>
+    <!-- Servicios Section -->
+    <section class="servicios" id="servicios">
+        <div class="section-header">
+            <h2>¿Qué podemos hacer por ti?</h2>
+            <p>Soluciones a medida, ya seas un particular buscando algo especial o una empresa que quiere destacar.</p>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Card Para Particulares -->
+            <div class="service-card">
+                <div class="icon-wrapper"><i class="ph ph-gift"></i></div>
+                <h3>Para Ti (Particulares)</h3>
+                <p>Creamos cosas únicas para regalar o decorar. Si tienes una idea, la imprimimos.</p>
+                <ul class="check-list">
+                    <li><i class="ph-fill ph-check-circle"></i> Figuras y coleccionables</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Maceteros y decoración</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Soportes para celulares/joysticks</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Repuestos simples para el hogar</li>
+                </ul>
             </div>
-          </div>
-        </div>
 
-        <div class="product-card reveal">
-          <div class="product-img">
-            <img src="images/prototipos.png" alt="Prototipos Industriales">
-            <span class="product-tag">Pro</span>
-          </div>
-          <div class="product-info">
-            <h3>Prototipos Industriales</h3>
-            <p>Prototipos funcionales para validación de diseño y pruebas de ingeniería.</p>
-            <div class="product-price">
-              <div><span class="price">$15.000</span> <span class="unit">CLP / desde</span></div>
-              <button class="btn-quote-sm">Cotizar</button>
+            <!-- Card Para PYMES -->
+            <div class="service-card highlight-card">
+                <div class="icon-wrapper"><i class="ph ph-storefront"></i></div>
+                <h3>Para tu PYME</h3>
+                <p>Destaca tu marca con merchandising y accesorios personalizados a bajo costo.</p>
+                <ul class="check-list">
+                    <li><i class="ph-fill ph-check-circle"></i> Llaveros con el logo de tu empresa</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Letreros pequeños y coloridos</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Exhibidores para tus productos</li>
+                    <li><i class="ph-fill ph-check-circle"></i> Merchandising para eventos</li>
+                </ul>
             </div>
-          </div>
         </div>
+    </section>
 
-        <div class="product-card reveal">
-          <div class="product-img">
-            <img src="images/decoracion.png" alt="Decoración y Hogar">
-            <span class="product-tag">Nuevo</span>
-          </div>
-          <div class="product-info">
-            <h3>Decoración y Hogar</h3>
-            <p>Jarrones, lámparas y arte mural con diseños únicos e irrepetibles.</p>
-            <div class="product-price">
-              <div><span class="price">$12.000</span> <span class="unit">CLP / desde</span></div>
-              <button class="btn-quote-sm">Cotizar</button>
+    <!-- Nuestra Magia (Tecnología) -->
+    <section class="tecnologia">
+        <div class="tech-content">
+            <h2>Nuestra "Magia": Impresión Multicolor</h2>
+            <p>Contamos con tecnología de punta (Bambu Lab A1) que nos permite imprimir <strong>hasta en 4 colores al mismo tiempo</strong>, logrando acabados impresionantes sin necesidad de pintar a mano.</p>
+            <div class="tech-features">
+                <div class="feature">
+                    <i class="ph ph-palette"></i>
+                    <span>Multicolor Real</span>
+                </div>
+                <div class="feature">
+                    <i class="ph ph-leaf"></i>
+                    <span>Materiales Eco (PLA)</span>
+                </div>
+                <div class="feature">
+                    <i class="ph ph-shield-check"></i>
+                    <span>Alta Resistencia (PETG)</span>
+                </div>
+                <div class="feature">
+                    <i class="ph ph-rocket-launch"></i>
+                    <span>Entrega Rápida</span>
+                </div>
             </div>
-          </div>
         </div>
+    </section>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ SERVICIOS ═══ -->
-  <section class="services" id="servicios">
-    <div class="container">
-      <h2 class="section-title">Nuestros Servicios</h2>
-      <p class="section-subtitle">Ofrecemos soluciones completas de impresión 3D para particulares y empresas.</p>
-      <div class="services-grid">
-        <div class="service-card reveal">
-          <div class="service-icon">🎨</div>
-          <h3>Diseño 3D</h3>
-          <p>Modelamos tu idea desde cero o adaptamos tu archivo para impresión óptima.</p>
+    <!-- Galería -->
+    <section class="galeria" id="galeria">
+        <div class="section-header">
+            <h2>Algunos de nuestros trabajos</h2>
+            <p>Mira lo que podemos lograr con nuestra impresora. ¡Todo sale directamente así, a todo color!</p>
         </div>
-        <div class="service-card reveal">
-          <div class="service-icon">⚙️</div>
-          <h3>Prototipado Rápido</h3>
-          <p>Iteraciones rápidas para validar tus diseños antes de producción final.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon">📦</div>
-          <h3>Producción en Serie</h3>
-          <p>Lotes pequeños y medianos con consistencia de calidad garantizada.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon">🔧</div>
-          <h3>Post-Procesado</h3>
-          <p>Lijado, pintura, acetona y acabados profesionales para tus piezas.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon">📐</div>
-          <h3>Escaneo 3D</h3>
-          <p>Digitalizamos objetos físicos para replicarlos o modificarlos digitalmente.</p>
-        </div>
-        <div class="service-card reveal">
-          <div class="service-icon">🚚</div>
-          <h3>Envíos a Todo Chile</h3>
-          <p>Despacho seguro a todo el país con seguimiento en tiempo real.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ COTIZACIÓN ═══ -->
-  <section class="quote" id="cotizar">
-    <div class="container">
-      <div class="quote-wrapper reveal">
-        <div class="quote-info">
-          <h2>Solicita tu <span class="gradient-text">Cotización</span></h2>
-          <p>Completa el formulario y te enviaremos una cotización detallada en menos de 24 horas.</p>
-          <ul class="quote-features">
-            <li><span class="check">✓</span> Cotización sin compromiso</li>
-            <li><span class="check">✓</span> Respuesta en menos de 24 horas</li>
-            <li><span class="check">✓</span> Asesoría gratuita en materiales</li>
-            <li><span class="check">✓</span> Archivos STL, OBJ, STEP aceptados</li>
-            <li><span class="check">✓</span> Descuentos por volumen</li>
-            <li><span class="check">✓</span> Garantía de calidad en cada pieza</li>
-          </ul>
-        </div>
-        <form class="quote-form" id="quote-form">
-          <!-- FormSubmit.co config -->
-          <input type="hidden" name="_subject" value="Nueva Cotización - Imprime3D">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
-          <input type="text" name="_honey" style="display:none">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name">Nombre completo *</label>
-              <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="assets/deco_vase.png" alt="Macetero decorativo 3D">
+                <div class="overlay"><span>Decoración para el Hogar</span></div>
             </div>
-            <div class="form-group">
-              <label for="company">Empresa</label>
-              <input type="text" id="company" name="company" placeholder="Nombre de empresa">
+            <div class="gallery-item">
+                <img src="assets/business_keychain.png" alt="Llaveros 3D para empresas">
+                <div class="overlay"><span>Merchandising para PYMES</span></div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Correo electrónico *</label>
-              <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            <div class="gallery-item">
+                <img src="assets/cute_figure.png" alt="Figura articulada 3D">
+                <div class="overlay"><span>Figuras y Juguetes</span></div>
             </div>
-            <div class="form-group">
-              <label for="phone">Teléfono</label>
-              <input type="tel" id="phone" name="phone" placeholder="+56 9 1234 5678">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="service">Tipo de servicio *</label>
-              <select id="service" name="service" required>
-                <option value="">Seleccionar...</option>
-                <option value="prototipo">Prototipado</option>
-                <option value="produccion">Producción en serie</option>
-                <option value="diseno">Diseño 3D</option>
-                <option value="escaneo">Escaneo 3D</option>
-                <option value="personalizado">Pieza personalizada</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="material">Material preferido</label>
-              <select id="material" name="material">
-                <option value="">Seleccionar...</option>
-                <option value="pla">PLA</option>
-                <option value="abs">ABS</option>
-                <option value="petg">PETG</option>
-                <option value="tpu">TPU (Flexible)</option>
-                <option value="nylon">Nylon</option>
-                <option value="resina">Resina</option>
-                <option value="otro">Otro / No estoy seguro</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="quantity">Cantidad estimada</label>
-            <input type="number" id="quantity" name="quantity" placeholder="Ej: 10 unidades" min="1">
-          </div>
-          <div class="form-group">
-            <label for="details">Detalles del proyecto *</label>
-            <textarea id="details" name="details" placeholder="Describe tu proyecto: dimensiones, uso, acabado deseado, adjunta link a archivo si es posible..." required></textarea>
-          </div>
-          <button type="submit" class="btn-submit" id="btn-submit">Enviar Solicitud de Cotización →</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ CONTACTO ═══ -->
-  <section class="contact" id="contacto">
-    <div class="container">
-      <h2 class="section-title">Contáctanos</h2>
-      <p class="section-subtitle">¿Tienes preguntas? Estamos aquí para ayudarte con tu proyecto.</p>
-      <div class="contact-grid">
-        <div class="contact-card reveal">
-          <div class="icon">📧</div>
-          <h3>Correo Electrónico</h3>
-          <p><a href="mailto:sebadiazlobos@gmail.com">sebadiazlobos@gmail.com</a></p>
         </div>
-        <div class="contact-card reveal">
-          <div class="icon">📱</div>
-          <h3>WhatsApp</h3>
-          <p><a href="https://wa.me/56912345678" target="_blank">+56 9 1234 5678</a></p>
-        </div>
-        <div class="contact-card reveal">
-          <div class="icon">📍</div>
-          <h3>Ubicación</h3>
-          <p>Santiago, Chile<br>Retiro en taller disponible</p>
-        </div>
-        <div class="contact-card reveal">
-          <div class="icon">🕐</div>
-          <h3>Horario</h3>
-          <p>Lun - Vie: 9:00 - 18:00<br>Sáb: 10:00 - 14:00</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══ FOOTER ═══ -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 Imprime3D. Todos los derechos reservados.</p>
-      <ul class="footer-links">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#productos">Productos</a></li>
-        <li><a href="#cotizar">Cotizar</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </div>
-  </footer>
+    <!-- Cómo Funciona -->
+    <section class="como-funciona" id="como-funciona">
+        <div class="section-header">
+            <h2>Es muy fácil pedir tu impresión</h2>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Cuéntanos tu idea</h3>
+                <p>Escríbenos por WhatsApp y envíanos una foto, dibujo o el archivo 3D de lo que quieres.</p>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Te damos el precio</h3>
+                <p>Evaluamos el diseño, elegimos los colores contigo y te damos una cotización sin compromiso.</p>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>¡Lo hacemos realidad!</h3>
+                <p>Lo imprimimos con la mejor calidad y te avisamos cuando esté listo para retiro o envío.</p>
+            </div>
+        </div>
+    </section>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
+    <!-- Call to Action y Formulario -->
+    <section class="cta-final" id="cotizar">
+        <div class="cta-container">
+            <div class="cta-info">
+                <h2>¿Listo para hacer realidad tu idea?</h2>
+                <p>Cotiza tu proyecto directamente enviándonos un correo o hablándonos por WhatsApp. No importa si es solo una unidad o varias para tu negocio.</p>
+                
+                <a href="https://wa.me/56989758475?text=¡Hola!%20Vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20cotizar%20una%20impresión%203D..." target="_blank" class="btn-primary xl-large pulse">
+                    <i class="ph ph-whatsapp-logo"></i> Cotizar por WhatsApp
+                </a>
+                
+                <div class="contact-info-footer">
+                    <p><i class="ph ph-envelope-simple"></i> sebadiazlobos@gmail.com</p>
+                    <p><i class="ph ph-phone"></i> +56 9 8975 8475</p>
+                </div>
+            </div>
 
-  <script src="script.js"></script>
+            <div class="cta-form-box">
+                <h3>Envíanos un mensaje</h3>
+                <form action="https://formsubmit.co/sebadiazlobos@gmail.com" method="POST" class="contact-form">
+                    <!-- Configuración de FormSubmit -->
+                    <input type="hidden" name="_subject" value="Nueva Cotización desde la Página Web (Imprime3D)">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <!-- Para evitar redirigir a una página de FormSubmit genérica, usamos next. 
+                         Idealmente debería apuntar a una URL válida de gracias, pero usaremos un truco o dejaremos que muestre la página de gracias por defecto. -->
+                         
+                    <div class="form-group">
+                        <label for="nombre">Tu Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Tu Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipo">¿Qué buscas?</label>
+                        <select id="tipo" name="tipo" required>
+                            <option value="Regalo/Decoración">Regalo o Decoración (Particular)</option>
+                            <option value="Merchandising/PYME">Merchandising / Para mi PYME</option>
+                            <option value="Repuesto">Repuesto o Pieza funcional</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensaje">Cuéntanos tu idea</label>
+                        <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Me gustaría imprimir unos llaveros con el logo de mi panadería..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Enviar Cotización <i class="ph ph-paper-plane-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <i class="ph-fill ph-cube"></i> Imprime<span>3D</span>
+            </div>
+            <p>© 2026 Imprime3D. Diseñado para dar vida a tus ideas.</p>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/56989758475?text=¡Hola!%20Vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20cotizar%20una%20impresión%203D..." target="_blank" class="floating-wsp" aria-label="Chat en WhatsApp">
+        <i class="ph-fill ph-whatsapp-logo"></i>
+    </a>
+
 </body>
 </html>
