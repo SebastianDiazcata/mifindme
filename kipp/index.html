@@ -22,13 +22,9 @@
         <div class="login-container">
             <div class="login-card">
                 <div class="login-header">
-                    <div class="login-eye">
-                        <div class="eye-ring-outer"></div>
-                        <div class="eye-ring-inner"></div>
-                        <div class="eye-core-lg"></div>
-                    </div>
-                    <h1 class="login-title">KIPP</h1>
-                    <p class="login-subtitle">Panel de Control</p>
+                    <div class="login-logo">[KIPP]</div>
+                    <h1 class="login-title">Control</h1>
+                    <p class="login-subtitle">System Access</p>
                 </div>
 
                 <!-- Login Form -->
@@ -100,8 +96,7 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <div class="brand-eye-sm"><div class="brand-eye-core-sm"></div></div>
-                    <span class="brand-text">KIPP</span>
+                    <span class="brand-text">[KIPP]</span>
                 </div>
                 <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -179,9 +174,15 @@
                             </div>
                         </div>
                         <p class="preview-text" id="previewText"></p>
+                        
+                        <!-- Custom Prompt Area (Hidden by default, shown if Custom Personality selected) -->
+                        <div class="custom-prompt-area" id="customPromptArea" style="display:none">
+                            <label style="font-size: 12px; color: var(--accent); margin-bottom: 8px; display: block;">PROMPT PERSONALIZADO:</label>
+                            <textarea id="customPromptInput" placeholder="Ej: Eres KIPP, un asistente pirata..."></textarea>
+                        </div>
+
                         <button class="btn-primary" id="applyPersonalityBtn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                            Aplicar personalidad
+                            [ APLICAR ]
                         </button>
                     </div>
                 </div>
@@ -361,11 +362,38 @@
                     </div>
 
                     <button class="btn-primary" id="saveSettingsBtn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                        Guardar cambios
+                        [ GUARDAR ]
                     </button>
                 </div>
             </section>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Upgrade to KIPP Premium</h3>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:20px; text-align:center;">$4.990 CLP / Mes. Desbloquea personalidades exclusivas y el prompt personalizado.</p>
+            <form id="paymentForm" class="payment-form">
+                <div class="form-group">
+                    <label>Número de Tarjeta</label>
+                    <input type="text" placeholder="XXXX XXXX XXXX XXXX" required>
+                </div>
+                <div style="display:flex; gap:12px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Vencimiento</label>
+                        <input type="text" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>CVV</label>
+                        <input type="password" placeholder="123" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancelPaymentBtn">Cancelar</button>
+                    <button type="submit" class="btn-pay">Pagar $4.990</button>
+                </div>
+            </form>
         </div>
     </div>
 
