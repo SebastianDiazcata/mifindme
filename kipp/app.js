@@ -1,24 +1,30 @@
 /* ═══════════════════════════════════════
-   KIPP — Panel de Control V3 (OLED/DB/Premium)
+   KIPP — Panel de Control V4
    ═══════════════════════════════════════ */
 
 const API_URL = 'http://127.0.0.1:5000/api';
 
-// ─── Data Fallback (in case backend is down) ───
+// ─── Fallback Data ───
 const DB = {
     users: [
         { id: 1, nombre: 'Usuario Demo', email: 'demo@kipp.cl', password: '123456', plan_premium: false }
     ],
     personalities: [
-        { id: 1, nombre: 'Formal', emoji: '🎩', descripcion: 'Respuestas profesionales, estructuradas y corteses.', es_premium: false, prompt: 'Eres KIPP, personalidad FORMAL.' },
-        { id: 2, nombre: 'Informal', emoji: '😎', descripcion: 'Amigable, relajado y cercano. Usa jerga chilena.', es_premium: false, prompt: 'Eres KIPP, personalidad INFORMAL.' },
-        { id: 3, nombre: 'Sarcástico', emoji: '😏', descripcion: 'Irónico, ingenioso y con humor ácido.', es_premium: false, prompt: 'Eres KIPP, personalidad SARCÁSTICA.' },
-        { id: 4, nombre: 'Técnico', emoji: '⚙️', descripcion: 'Respuestas detalladas con terminología especializada.', es_premium: false, prompt: 'Eres KIPP, personalidad TÉCNICA.' },
-        { id: 5, nombre: 'Profesor', emoji: '📚', descripcion: 'Pedagógico y paciente. Explica conceptos paso a paso.', es_premium: true, prompt: 'Eres KIPP, personalidad PROFESOR.' },
-        { id: 6, nombre: 'Custom', emoji: '✨', descripcion: 'Crea tu propia personalidad escribiendo un prompt personalizado.', es_premium: true, prompt: '' }
+        { id: 1, nombre: 'Formal',     emoji: '🎩', descripcion: 'Respuestas profesionales, estructuradas y corteses.',             es_premium: false, prompt: 'Eres KIPP. Responde siempre de forma formal, profesional y estructurada. Usa vocabulario culto y frases completas.' },
+        { id: 2, nombre: 'Informal',   emoji: '😎', descripcion: 'Amigable, relajado y cercano. Usa jerga chilena.',                es_premium: false, prompt: 'Eres KIPP. Responde de forma relajada, como un amigo chileno. Puedes usar expresiones coloquiales y ser cercano.' },
+        { id: 3, nombre: 'Sarcástico', emoji: '😏', descripcion: 'Irónico, ingenioso y con humor ácido controlado.',               es_premium: false, prompt: 'Eres KIPP. Responde con sarcasmo e ironía inteligente. Sé ingenioso pero sin ser ofensivo.' },
+        { id: 4, nombre: 'Técnico',    emoji: '⚙️', descripcion: 'Respuestas detalladas con terminología especializada.',          es_premium: false, prompt: 'Eres KIPP. Responde con precisión técnica, incluyendo datos, terminología especializada y explicaciones detalladas.' },
+        { id: 5, nombre: 'Profesor',   emoji: '📚', descripcion: 'Pedagógico y paciente. Explica conceptos paso a paso.',          es_premium: true,  prompt: 'Eres KIPP. Actúa como un profesor paciente y pedagógico. Explica los conceptos paso a paso con ejemplos claros.' },
+        { id: 6, nombre: 'Custom',     emoji: '✨', descripcion: 'Crea tu propia personalidad escribiendo un prompt personalizado.', es_premium: true,  prompt: '' }
     ],
-    history: [],
-    config: { volumen: 70, velocidad: 50, nombre_dispositivo: 'KIPP de Escritorio', modelo_ia: 'gpt-4o-mini', personalidad_activa: 2, custom_prompt: '' }
+    history: [
+        { id: 1, pregunta: 'Hola, ¿quién eres?',             respuesta: '¡Hola! Soy KIPP, tu asistente personal. Estoy aquí para ayudarte con preguntas, recordatorios, conversación y lo que necesites. ¿En qué te puedo ayudar hoy?',                        fecha: new Date(Date.now() - 600000).toISOString(),   tiempo_ms: 724,  personalidad: 'Informal' },
+        { id: 2, pregunta: '¿Qué sabes hacer?',               respuesta: 'Puedo responder preguntas, contarte chistes, ayudarte con cálculos, explicar conceptos, charlar contigo e incluso adaptarme a la personalidad que más te guste. ¡Pruébame!',            fecha: new Date(Date.now() - 1800000).toISOString(),  tiempo_ms: 891,  personalidad: 'Informal' },
+        { id: 3, pregunta: 'Cuéntame un chiste',              respuesta: '¿Por qué los robots nunca mienten? Porque no tienen ningún byte de deshonestidad. 😄',                                                                                                      fecha: new Date(Date.now() - 3600000).toISOString(),  tiempo_ms: 540,  personalidad: 'Sarcástico' },
+        { id: 4, pregunta: '¿Cuánto es 1234 × 56?',          respuesta: '1234 × 56 = 69.104. ¿Necesitas que te explique el procedimiento o tienes otro cálculo?',                                                                                                      fecha: new Date(Date.now() - 7200000).toISOString(),  tiempo_ms: 412,  personalidad: 'Técnico' },
+        { id: 5, pregunta: 'Buenas noches, KIPP',             respuesta: '¡Buenas noches! Que descanses. Aquí estaré cuando me necesites. 🌙',                                                                                                                          fecha: new Date(Date.now() - 86400000).toISOString(), tiempo_ms: 318,  personalidad: 'Informal' }
+    ],
+    config: { volumen: 70, velocidad: 50, nombre_dispositivo: 'KIPP de Escritorio', mac_address: 'AA:BB:CC:DD:EE:FF', modelo_ia: 'gemini-2.5-flash', personalidad_activa: 2, custom_prompt: '' }
 };
 
 // ─── State ───
@@ -26,20 +32,19 @@ let state = {
     user: null,
     currentPage: 'personalidad',
     selectedPersonality: null,
-    activePersonality: 2
+    activePersonality: 2,
+    micStream: null
 };
 
 // ─── Init ───
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function () {
     const savedUser = localStorage.getItem('kipp_user');
     if (savedUser) {
         state.user = JSON.parse(savedUser);
         showApp();
     }
-
     const savedConfig = localStorage.getItem('kipp_config');
     if (savedConfig) Object.assign(DB.config, JSON.parse(savedConfig));
-
     const savedActive = localStorage.getItem('kipp_active_personality');
     if (savedActive) state.activePersonality = parseInt(savedActive);
 
@@ -50,27 +55,24 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 // ═══════════════════════════════════════
-//  API FETCH
+//  API FETCH (opcional, si el backend está activo)
 // ═══════════════════════════════════════
 async function fetchFromDB() {
     try {
-        const pRes = await fetch(API_URL + '/personalidades');
+        const pRes = await fetch(API_URL + '/personalidades', { signal: AbortSignal.timeout(2000) });
         if (pRes.ok) {
             const pData = await pRes.json();
-            // keep custom at the end
             const customP = DB.personalities.find(p => p.id === 6);
             DB.personalities = pData;
-            if(!DB.personalities.find(p => p.id===6)) DB.personalities.push(customP);
+            if (!DB.personalities.find(p => p.id === 6)) DB.personalities.push(customP);
         }
-
-        const hRes = await fetch(API_URL + '/historial');
+        const hRes = await fetch(API_URL + '/historial', { signal: AbortSignal.timeout(2000) });
         if (hRes.ok) {
-            DB.history = await hRes.json();
-            renderHistory();
+            const hData = await hRes.json();
+            if (hData.length > 0) DB.history = hData;
         }
     } catch (e) {
-        console.warn('Backend API not reachable. Using fallback data.', e);
-        showToast('Modo Offline: Backend no conectado', 'error');
+        console.warn('Backend no disponible. Usando datos de demostración.');
     }
 }
 
@@ -79,55 +81,87 @@ async function fetchFromDB() {
 // ═══════════════════════════════════════
 function bindLoginEvents() {
     var loginForm = document.getElementById('loginForm');
+    var registerForm = document.getElementById('registerForm');
     var demoBtn = document.getElementById('demoBtn');
+    var authSwitchBtn = document.getElementById('authSwitchBtn');
+    var authSwitchText = document.getElementById('authSwitchText');
+    var toggleLoginPass = document.getElementById('toggleLoginPass');
+    var toggleRegPass = document.getElementById('toggleRegPass');
 
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
             var email = document.getElementById('loginEmail').value.trim();
             var pass = document.getElementById('loginPassword').value;
+            var user = DB.users.find(function (u) { return u.email === email && u.password === pass; });
+            if (user) { loginSuccess(user); }
+            else { showToast('Email o contraseña incorrectos', 'error'); }
+        });
+    }
 
-            var user = DB.users.find(function(u) { return u.email === email && u.password === pass; });
-            if (user) {
-                loginSuccess(user);
-            } else {
-                showToast('Acceso Denegado', 'error');
+    if (registerForm) {
+        registerForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var nombre = document.getElementById('regName').value.trim();
+            var email = document.getElementById('regEmail').value.trim();
+            var pass = document.getElementById('regPassword').value;
+            if (DB.users.find(u => u.email === email)) {
+                showToast('Este email ya está registrado', 'error'); return;
             }
+            var newUser = { id: DB.users.length + 1, nombre: nombre, email: email, password: pass, plan_premium: false };
+            DB.users.push(newUser);
+            loginSuccess(newUser);
+            showToast('CUENTA CREADA: Bienvenido, ' + nombre, 'success');
         });
     }
 
     if (demoBtn) {
-        demoBtn.addEventListener('click', function() {
-            loginSuccess(DB.users[0]);
+        demoBtn.addEventListener('click', function () { loginSuccess(DB.users[0]); });
+    }
+
+    if (authSwitchBtn) {
+        authSwitchBtn.addEventListener('click', function () {
+            var isLogin = loginForm.style.display !== 'none';
+            loginForm.style.display = isLogin ? 'none' : '';
+            registerForm.style.display = isLogin ? '' : 'none';
+            authSwitchBtn.textContent = isLogin ? 'Iniciar Sesión' : 'Regístrate';
+            authSwitchText.textContent = isLogin ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?';
         });
     }
 
-    var toggleLoginPass = document.getElementById('toggleLoginPass');
-    if (toggleLoginPass) {
-        toggleLoginPass.addEventListener('click', function() {
-            var inp = document.getElementById('loginPassword');
-            inp.type = inp.type === 'password' ? 'text' : 'password';
-        });
-    }
+    if (toggleLoginPass) toggleLoginPass.addEventListener('click', function () {
+        var inp = document.getElementById('loginPassword');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+    });
+
+    if (toggleRegPass) toggleRegPass.addEventListener('click', function () {
+        var inp = document.getElementById('regPassword');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+    });
 }
 
 function loginSuccess(user) {
     state.user = user;
     localStorage.setItem('kipp_user', JSON.stringify(user));
     showApp();
-    showToast('ACCESO CONCEDIDO: ' + user.nombre, 'success');
+    showToast('ACCESO CONCEDIDO · ' + user.nombre, 'success');
 }
 
 function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
     updateUserUI();
-    fetchFromDB().then(() => {
+    // ← RENDER INMEDIATO con datos de fallback (fix del bug: no espera el fetch)
+    renderPersonalities();
+    renderHistory();
+    loadSettings();
+    updateDevicePage();
+    navigateTo('personalidad');
+    // Luego actualizar si el backend responde
+    fetchFromDB().then(function () {
         renderPersonalities();
         renderHistory();
     });
-    loadSettings();
-    navigateTo('personalidad');
 }
 
 function logout() {
@@ -142,26 +176,19 @@ function updateUserUI() {
     if (!state.user) return;
     document.getElementById('userName').textContent = state.user.nombre;
     document.getElementById('userPlan').textContent = state.user.plan_premium ? '★ PREMIUM' : 'FREE';
-    
-    // Update Subscription page visually
-    const currentPlanName = document.getElementById('currentPlanName');
-    const currentPlanDesc = document.getElementById('currentPlanDesc');
-    const planIcon = document.querySelector('.plan-icon-box');
-    const upgradeBtn = document.getElementById('upgradePremiumBtn');
+
+    var upgradeBtn = document.getElementById('upgradePremiumBtn');
+    var currentPlanName = document.getElementById('currentPlanName');
+    var currentPlanDesc = document.getElementById('currentPlanDesc');
 
     if (state.user.plan_premium) {
-        currentPlanName.textContent = 'Plan Premium';
-        currentPlanDesc.textContent = 'Funciones avanzadas y prompts personalizados activos.';
-        if(planIcon) {
-            planIcon.classList.remove('free');
-            planIcon.classList.add('premium-active');
-            planIcon.innerHTML = '★';
-        }
-        if(upgradeBtn) {
-            upgradeBtn.textContent = 'PLAN ACTIVO';
-            upgradeBtn.disabled = true;
-            upgradeBtn.style.opacity = '0.5';
-        }
+        if (currentPlanName) currentPlanName.textContent = 'Plan Premium';
+        if (currentPlanDesc) currentPlanDesc.textContent = 'Funciones avanzadas y prompts personalizados activos.';
+        if (upgradeBtn) { upgradeBtn.textContent = 'PLAN ACTIVO'; upgradeBtn.disabled = true; upgradeBtn.style.opacity = '0.5'; }
+    } else {
+        if (currentPlanName) currentPlanName.textContent = 'Plan Gratuito';
+        if (currentPlanDesc) currentPlanDesc.textContent = 'Funciones básicas de IA con respuestas estándar.';
+        if (upgradeBtn) { upgradeBtn.textContent = '✦ Mejorar a Premium'; upgradeBtn.disabled = false; upgradeBtn.style.opacity = '1'; }
     }
 }
 
@@ -169,48 +196,37 @@ function updateUserUI() {
 //  NAVIGATION
 // ═══════════════════════════════════════
 function bindNavEvents() {
-    document.querySelectorAll('.sidebar-link').forEach(function(link) {
-        link.addEventListener('click', function() {
+    document.querySelectorAll('.sidebar-link').forEach(function (link) {
+        link.addEventListener('click', function () {
             navigateTo(this.getAttribute('data-page'));
             closeSidebar();
         });
     });
-
     var hamburger = document.getElementById('hamburgerBtn');
     if (hamburger) hamburger.addEventListener('click', openSidebar);
-
     var closeBtn = document.getElementById('sidebarClose');
     if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-
     var overlay = document.getElementById('sidebarOverlay');
     if (overlay) overlay.addEventListener('click', closeSidebar);
-
     var logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) logoutBtn.addEventListener('click', logout);
 }
 
 function navigateTo(page) {
     state.currentPage = page;
-    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.page').forEach(function (p) { p.classList.remove('active'); });
     var target = document.getElementById('page-' + page);
     if (target) target.classList.add('active');
-
-    document.querySelectorAll('.sidebar-link').forEach(function(l) {
+    document.querySelectorAll('.sidebar-link').forEach(function (l) {
         l.classList.toggle('active', l.getAttribute('data-page') === page);
     });
-
-    var titles = { personalidad: 'Personalidad', historial: 'Historial', suscripcion: 'Suscripción', ajustes: 'Ajustes' };
+    var titles = { personalidad: 'Personalidad', historial: 'Historial', suscripcion: 'Suscripción', ajustes: 'Ajustes', dispositivo: 'Mi Dispositivo' };
     document.getElementById('pageTitle').textContent = titles[page] || page;
+    if (page === 'dispositivo') updateDevicePage();
 }
 
-function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebarOverlay').classList.add('open');
-}
-function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
-}
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('open'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open'); }
 
 // ═══════════════════════════════════════
 //  PERSONALITY
@@ -219,44 +235,33 @@ function renderPersonalities() {
     var grid = document.getElementById('personalityGrid');
     if (!grid) return;
     grid.innerHTML = '';
-
-    DB.personalities.forEach(function(p) {
-        var card = document.createElement('div');
+    DB.personalities.forEach(function (p) {
         var isActive = p.id === state.activePersonality;
         var isLocked = p.es_premium && (!state.user || !state.user.plan_premium);
-
+        var card = document.createElement('div');
         card.className = 'p-card' + (isActive ? ' selected' : '') + (isLocked ? ' locked' : '');
         card.setAttribute('data-id', p.id);
-
-        var premium = p.es_premium ? '<span class="premium-tag">PREMIUM</span>' : '';
-        card.innerHTML = '<div class="p-card-emoji">' + p.emoji + '</div>' +
+        var lockIcon = isLocked ? '<span class="lock-icon">🔒</span>' : '';
+        var premiumTag = p.es_premium ? '<span class="premium-tag">PREMIUM</span>' : '';
+        card.innerHTML = '<div class="p-card-emoji">' + p.emoji + lockIcon + '</div>' +
             '<div class="p-card-name">' + p.nombre + '</div>' +
-            '<div class="p-card-desc">' + p.descripcion + '</div>' + premium;
-
-        card.addEventListener('click', function() { selectPersonality(p.id); });
+            '<div class="p-card-desc">' + p.descripcion + '</div>' + premiumTag;
+        card.addEventListener('click', function () { selectPersonality(p.id); });
         grid.appendChild(card);
     });
 }
 
 function selectPersonality(id) {
-    var p = DB.personalities.find(function(x) { return x.id === id; });
+    var p = DB.personalities.find(function (x) { return x.id === id; });
     if (!p) return;
-
     var isLocked = p.es_premium && (!state.user || !state.user.plan_premium);
-    if (isLocked) {
-        showToast('REQUIERE UPGRADE A PREMIUM', 'error');
-        navigateTo('suscripcion');
-        return;
-    }
-
+    if (isLocked) { showToast('Requiere plan Premium', 'error'); navigateTo('suscripcion'); return; }
     state.selectedPersonality = id;
-
     var panel = document.getElementById('previewPanel');
     panel.style.display = 'block';
     document.getElementById('previewEmoji').textContent = p.emoji;
     document.getElementById('previewName').textContent = p.nombre;
     document.getElementById('previewText').textContent = p.prompt ? 'PROMPT: "' + p.prompt + '"' : '';
-
     var customArea = document.getElementById('customPromptArea');
     var customInput = document.getElementById('customPromptInput');
     if (p.nombre === 'Custom') {
@@ -265,62 +270,79 @@ function selectPersonality(id) {
     } else {
         customArea.style.display = 'none';
     }
-
     var isActive = id === state.activePersonality;
     document.getElementById('previewTag').textContent = isActive ? '[ACTIVA]' : '[SELECCIONADA]';
-
-    document.querySelectorAll('.p-card').forEach(function(c) {
+    document.querySelectorAll('.p-card').forEach(function (c) {
         c.classList.toggle('selected', parseInt(c.getAttribute('data-id')) === id);
     });
 }
 
+// ═══════════════════════════════════════
+//  PAGE EVENTS
+// ═══════════════════════════════════════
 function bindPageEvents() {
+    // Apply personality
     var applyBtn = document.getElementById('applyPersonalityBtn');
     if (applyBtn) {
-        applyBtn.addEventListener('click', function() {
-            if (state.selectedPersonality) {
-                var p = DB.personalities.find(function(x) { return x.id === state.selectedPersonality; });
-                
-                if (p.nombre === 'Custom') {
-                    var val = document.getElementById('customPromptInput').value.trim();
-                    if(!val) {
-                        showToast('ERROR: PROMPT VACÍO', 'error');
-                        return;
-                    }
-                    DB.config.custom_prompt = val;
-                }
-
-                state.activePersonality = state.selectedPersonality;
-                localStorage.setItem('kipp_active_personality', state.activePersonality);
-                localStorage.setItem('kipp_config', JSON.stringify(DB.config));
-                
-                showToast('CONFIGURADA: ' + p.nombre.toUpperCase(), 'success');
-                renderPersonalities();
-                selectPersonality(state.activePersonality);
+        applyBtn.addEventListener('click', function () {
+            if (!state.selectedPersonality) return;
+            var p = DB.personalities.find(function (x) { return x.id === state.selectedPersonality; });
+            if (p.nombre === 'Custom') {
+                var val = document.getElementById('customPromptInput').value.trim();
+                if (!val) { showToast('Prompt vacío', 'error'); return; }
+                DB.config.custom_prompt = val;
             }
+            state.activePersonality = state.selectedPersonality;
+            localStorage.setItem('kipp_active_personality', state.activePersonality);
+            localStorage.setItem('kipp_config', JSON.stringify(DB.config));
+            showToast('PERSONALIDAD ACTIVA: ' + p.nombre.toUpperCase(), 'success');
+            renderPersonalities();
+            selectPersonality(state.activePersonality);
         });
     }
 
+    // Clear history
+    var clearBtn = document.getElementById('clearHistoryBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+            DB.history = [];
+            renderHistory();
+            showToast('HISTORIAL BORRADO', 'info');
+        });
+    }
+
+    // Save settings
     var saveBtn = document.getElementById('saveSettingsBtn');
     if (saveBtn) {
-        saveBtn.addEventListener('click', function() {
+        saveBtn.addEventListener('click', function () {
             DB.config.volumen = parseInt(document.getElementById('volumeRange').value);
             DB.config.velocidad = parseInt(document.getElementById('speedRange').value);
             DB.config.nombre_dispositivo = document.getElementById('deviceNameInput').value;
             localStorage.setItem('kipp_config', JSON.stringify(DB.config));
+            document.getElementById('deviceName').textContent = DB.config.nombre_dispositivo;
             showToast('AJUSTES GUARDADOS', 'success');
         });
     }
 
     var vol = document.getElementById('volumeRange');
-    if (vol) vol.addEventListener('input', function() { document.getElementById('volVal').textContent = this.value; });
-
+    if (vol) vol.addEventListener('input', function () { document.getElementById('volVal').textContent = this.value + '%'; });
     var spd = document.getElementById('speedRange');
-    if (spd) spd.addEventListener('input', function() { document.getElementById('spdVal').textContent = this.value; });
+    if (spd) spd.addEventListener('input', function () { document.getElementById('spdVal').textContent = this.value + '%'; });
+
+    // Mic test
+    var micBtn = document.getElementById('micTestBtn');
+    if (micBtn) micBtn.addEventListener('click', testMicrophone);
+
+    // Link device
+    var linkBtn = document.getElementById('linkDeviceBtn');
+    if (linkBtn) linkBtn.addEventListener('click', function () {
+        var mac = document.getElementById('macInput').value.trim().toUpperCase();
+        linkDevice(mac);
+    });
 }
 
 // ═══════════════════════════════════════
-//  PAYMENT MODAL
+//  PAYMENT
 // ═══════════════════════════════════════
 function bindPaymentEvents() {
     var upgradeBtn = document.getElementById('upgradePremiumBtn');
@@ -328,40 +350,25 @@ function bindPaymentEvents() {
     var cancelBtn = document.getElementById('cancelPaymentBtn');
     var paymentForm = document.getElementById('paymentForm');
 
-    if (upgradeBtn) {
-        upgradeBtn.addEventListener('click', function() {
-            if (state.user && state.user.plan_premium) return;
-            paymentModal.classList.add('active');
-        });
-    }
-
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-            paymentModal.classList.remove('active');
-        });
-    }
-
+    if (upgradeBtn) upgradeBtn.addEventListener('click', function () {
+        if (state.user && state.user.plan_premium) return;
+        paymentModal.classList.add('active');
+    });
+    if (cancelBtn) cancelBtn.addEventListener('click', function () { paymentModal.classList.remove('active'); });
     if (paymentForm) {
-        paymentForm.addEventListener('submit', function(e) {
+        paymentForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            // Simulate payment processing
             var btn = paymentForm.querySelector('.btn-pay');
-            var originalText = btn.textContent;
-            btn.textContent = 'PROCESANDO...';
-            btn.disabled = true;
-
-            setTimeout(function() {
+            btn.textContent = 'PROCESANDO...'; btn.disabled = true;
+            setTimeout(function () {
                 state.user.plan_premium = true;
                 localStorage.setItem('kipp_user', JSON.stringify(state.user));
-                
                 paymentModal.classList.remove('active');
-                btn.textContent = originalText;
-                btn.disabled = false;
+                btn.textContent = 'Pagar $4.990'; btn.disabled = false;
                 paymentForm.reset();
-
                 updateUserUI();
-                renderPersonalities(); // Unlock premium cards
-                showToast('PAGO APROBADO: BIENVENIDO A PREMIUM', 'success');
+                renderPersonalities();
+                showToast('PAGO APROBADO · BIENVENIDO A PREMIUM ✦', 'success');
             }, 1500);
         });
     }
@@ -373,30 +380,29 @@ function bindPaymentEvents() {
 function renderHistory() {
     var list = document.getElementById('historyList');
     var empty = document.getElementById('emptyHistory');
+    var countEl = document.getElementById('historyCount');
     if (!list) return;
 
-    list.querySelectorAll('.history-item').forEach(function(el) { el.remove(); });
+    list.querySelectorAll('.history-item').forEach(function (el) { el.remove(); });
+
+    if (countEl) countEl.textContent = DB.history.length + ' interaccion' + (DB.history.length !== 1 ? 'es' : '');
 
     if (DB.history.length === 0) {
-        if (empty) empty.style.display = 'block';
-        return;
+        if (empty) empty.style.display = 'block'; return;
     }
     if (empty) empty.style.display = 'none';
 
-    DB.history.forEach(function(entry) {
+    DB.history.slice().reverse().forEach(function (entry) {
         var item = document.createElement('div');
         item.className = 'history-item';
-
-        var dateStr = entry.fecha ? new Date(entry.fecha).toLocaleString() : 'N/A';
-
+        var dateStr = entry.fecha ? new Date(entry.fecha).toLocaleString('es-CL') : 'N/A';
         item.innerHTML = '<div class="history-q">' + escapeHtml(entry.pregunta || '') + '</div>' +
             '<div class="history-a">' + escapeHtml(entry.respuesta || '') + '</div>' +
             '<div class="history-meta">' +
-            '<span>TIME: ' + dateStr + '</span>' +
-            '<span>LATENCY: ' + (entry.tiempo_ms || 0) + 'ms</span>' +
-            '<span>MODE: ' + (entry.personalidad || 'Desconocido') + '</span>' +
+            '<span>' + dateStr + '</span>' +
+            '<span>' + (entry.tiempo_ms || 0) + 'ms</span>' +
+            '<span>' + (entry.personalidad || '—') + '</span>' +
             '</div>';
-
         list.appendChild(item);
     });
 }
@@ -405,11 +411,97 @@ function renderHistory() {
 //  SETTINGS
 // ═══════════════════════════════════════
 function loadSettings() {
-    document.getElementById('volumeRange').value = DB.config.volumen;
-    document.getElementById('volVal').textContent = DB.config.volumen;
-    document.getElementById('speedRange').value = DB.config.velocidad;
-    document.getElementById('spdVal').textContent = DB.config.velocidad;
-    document.getElementById('deviceNameInput').value = DB.config.nombre_dispositivo;
+    var vr = document.getElementById('volumeRange');
+    var sr = document.getElementById('speedRange');
+    var dn = document.getElementById('deviceNameInput');
+    if (vr) { vr.value = DB.config.volumen; document.getElementById('volVal').textContent = DB.config.volumen + '%'; }
+    if (sr) { sr.value = DB.config.velocidad; document.getElementById('spdVal').textContent = DB.config.velocidad + '%'; }
+    if (dn) dn.value = DB.config.nombre_dispositivo;
+    var sn = document.getElementById('settingsUserName');
+    var se = document.getElementById('settingsUserEmail');
+    if (sn && state.user) sn.textContent = state.user.nombre;
+    if (se && state.user) se.textContent = state.user.email;
+}
+
+// ═══════════════════════════════════════
+//  MI DISPOSITIVO
+// ═══════════════════════════════════════
+function updateDevicePage() {
+    var el = function (id) { return document.getElementById(id); };
+    if (el('dispUserName') && state.user) el('dispUserName').textContent = state.user.nombre;
+    if (el('dispUserEmail') && state.user) el('dispUserEmail').textContent = state.user.email;
+    if (el('dispUserPlan') && state.user) el('dispUserPlan').textContent = state.user.plan_premium ? '★ Premium' : 'Gratuito';
+    if (el('dispDeviceName')) el('dispDeviceName').textContent = DB.config.nombre_dispositivo;
+    if (el('dispDeviceMac')) el('dispDeviceMac').textContent = DB.config.mac_address || 'AA:BB:CC:DD:EE:FF';
+}
+
+async function testMicrophone() {
+    var btn = document.getElementById('micTestBtn');
+    var status = document.getElementById('micStatus');
+    var bars = document.querySelectorAll('.mic-bar');
+
+    btn.textContent = '[ ESCUCHANDO... ]';
+    btn.disabled = true;
+    if (status) { status.textContent = 'Solicitando acceso al micrófono...'; status.className = 'mic-status'; }
+
+    try {
+        var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var analyser = audioCtx.createAnalyser();
+        var source = audioCtx.createMediaStreamSource(stream);
+        source.connect(analyser);
+        analyser.fftSize = 64;
+        var dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        if (status) { status.textContent = 'Detectando señal... habla cerca del micrófono'; status.className = 'mic-status active'; }
+
+        var frames = 0;
+        var maxFrames = 120; // ~2 seconds at 60fps
+        function animate() {
+            if (frames < maxFrames) {
+                analyser.getByteFrequencyData(dataArray);
+                bars.forEach(function (bar, i) {
+                    var val = dataArray[Math.floor(i * dataArray.length / bars.length)] || 0;
+                    bar.style.height = Math.max(4, (val / 255) * 48) + 'px';
+                });
+                frames++;
+                requestAnimationFrame(animate);
+            } else {
+                stream.getTracks().forEach(function (t) { t.stop(); });
+                audioCtx.close();
+                bars.forEach(function (b) { b.style.height = '4px'; });
+                if (status) { status.textContent = '✔ Micrófono funcionando correctamente'; status.className = 'mic-status ok'; }
+                btn.textContent = '[ PROBAR MICRÓFONO ]';
+                btn.disabled = false;
+                showToast('MIC OK: Señal de audio detectada', 'success');
+            }
+        }
+        animate();
+
+    } catch (err) {
+        if (status) { status.textContent = '✘ Error: ' + (err.message || 'Permiso denegado'); status.className = 'mic-status error'; }
+        btn.textContent = '[ PROBAR MICRÓFONO ]';
+        btn.disabled = false;
+        showToast('MIC: Permiso denegado por el navegador', 'error');
+    }
+}
+
+function linkDevice(mac) {
+    var macRegex = /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/;
+    if (!macRegex.test(mac)) {
+        showToast('MAC inválida · Formato: XX:XX:XX:XX:XX:XX', 'error');
+        return;
+    }
+    var btn = document.getElementById('linkDeviceBtn');
+    btn.textContent = '[ VINCULANDO... ]'; btn.disabled = true;
+    setTimeout(function () {
+        DB.config.mac_address = mac;
+        localStorage.setItem('kipp_config', JSON.stringify(DB.config));
+        updateDevicePage();
+        showToast('DISPOSITIVO VINCULADO: ' + mac, 'success');
+        btn.textContent = '[ VINCULAR ]'; btn.disabled = false;
+        document.getElementById('macInput').value = '';
+    }, 1500);
 }
 
 // ═══════════════════════════════════════
@@ -428,11 +520,10 @@ function showToast(message, type) {
     toast.className = 'toast ' + type;
     toast.textContent = message;
     container.appendChild(toast);
-
-    setTimeout(function() {
+    setTimeout(function () {
         toast.style.opacity = '0';
         toast.style.transform = 'translateX(20px)';
         toast.style.transition = '150ms ease';
-        setTimeout(function() { toast.remove(); }, 200);
+        setTimeout(function () { toast.remove(); }, 200);
     }, 3000);
 }
