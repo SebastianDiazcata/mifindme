@@ -2,7 +2,10 @@
    KIPP — Panel de Control V4
    ═══════════════════════════════════════ */
 
-const API_URL = 'http://127.0.0.1:5000/api';
+// Auto-detección: local → Flask en 5000 | producción → Render
+const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://127.0.0.1:5000/api'
+    : 'https://kipp-api.onrender.com/api';
 
 // ─── Fallback Data ───
 const DB = {
