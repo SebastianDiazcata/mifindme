@@ -206,9 +206,9 @@ tbody td{padding:9px 11px;color:var(--text-secondary)}
 
 <script>
 // Auto-detectar URL de API según dónde esté corriendo
-const API = (window.location.port === '5000' || window.location.hostname !== '127.0.0.1')
-  ? window.location.origin + '/api'
-  : 'http://127.0.0.1:5000/api';
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://127.0.0.1:5000/api'
+  : 'https://kipp-api.onrender.com/api';
 let _usuarios = [];
 const titles = {dashboard:'Dashboard',usuarios:'Gestión de Usuarios',
   personalidades:'Gestión de Personalidades',dispositivos:'Gestión de Dispositivos',estadisticas:'Estadísticas'};
