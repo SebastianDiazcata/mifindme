@@ -91,29 +91,57 @@ function bindLoginEvents() {
     var toggleRegPass = document.getElementById('toggleRegPass');
 
     if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
+        loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             var email = document.getElementById('loginEmail').value.trim();
             var pass = document.getElementById('loginPassword').value;
-            var user = DB.users.find(function (u) { return u.email === email && u.password === pass; });
-            if (user) { loginSuccess(user); }
-            else { showToast('Email o contraseña incorrectos', 'error'); }
+            try {
+                const res = await fetch(API_URL + '/auth/login', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email: email, password: pass})
+                });
+                const data = await res.json();
+                if(res.ok && data.ok) { loginSuccess(data.usuario); }
+                else { showToast(data.error || 'Credenciales incorrectas', 'error'); }
+            } catch(e) {
+                // Fallback
+                var user = DB.users.find(function (u) { return u.email === email && u.password === pass; });
+                if (user) { loginSuccess(user); }
+                else { showToast('Email o contraseña incorrectos', 'error'); }
+            }
         });
     }
 
     if (registerForm) {
-        registerForm.addEventListener('submit', function (e) {
+        registerForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             var nombre = document.getElementById('regName').value.trim();
             var email = document.getElementById('regEmail').value.trim();
             var pass = document.getElementById('regPassword').value;
-            if (DB.users.find(u => u.email === email)) {
-                showToast('Este email ya está registrado', 'error'); return;
+            
+            try {
+                const res = await fetch(API_URL + '/auth/register', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({nombre: nombre, email: email, password: pass})
+                });
+                const data = await res.json();
+                if(res.ok && data.ok) {
+                    var newUser = { id_usuario: data.id_usuario, nombre: nombre, email: email, plan_premium: 0 };
+                    loginSuccess(newUser);
+                    showToast('CUENTA CREADA: Bienvenido, ' + nombre, 'success');
+                } else {
+                    showToast(data.error || 'Error al registrar', 'error');
+                }
+            } catch(err) {
+                // Fallback local
+                if (DB.users.find(u => u.email === email)) {
+                    showToast('Este email ya está registrado', 'error'); return;
+                }
+                var newUser = { id: DB.users.length + 1, nombre: nombre, email: email, password: pass, plan_premium: false };
+                DB.users.push(newUser);
+                loginSuccess(newUser);
+                showToast('CUENTA CREADA (Local): Bienvenido, ' + nombre, 'success');
             }
-            var newUser = { id: DB.users.length + 1, nombre: nombre, email: email, password: pass, plan_premium: false };
-            DB.users.push(newUser);
-            loginSuccess(newUser);
-            showToast('CUENTA CREADA: Bienvenido, ' + nombre, 'success');
         });
     }
 
@@ -143,6 +171,7 @@ function bindLoginEvents() {
 }
 
 function loginSuccess(user) {
+    if(user.nombre_completo && !user.nombre) user.nombre = user.nombre_completo;
     state.user = user;
     localStorage.setItem('kipp_user', JSON.stringify(user));
     showApp();
