@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIPP · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000;--bg-card:#080604;--bg-surface:#0d0a07;--bg-elevated:#13100c;
+  --accent:#c87941;--accent-bright:#e8a366;--accent-dim:#8c5a2e;
+  --accent-glow:rgba(200,121,65,.20);--accent-surface:rgba(200,121,65,.08);
+  --premium:#e8c46a;--premium-dim:#b89040;--premium-surface:rgba(232,196,106,.1);
+  --border:#1e1912;--text:#e0d5c8;--text-secondary:#a09080;--text-muted:#6a5a4a;
+  --white:#f5ede4;--success:#4caf82;--danger:#ff3355;
+  --font:'JetBrains Mono','Courier New',monospace;--sidebar-w:220px;
+}
+html{font-size:14px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);color:var(--text);background:var(--bg);
+  background-image:linear-gradient(rgba(0,0,0,0) 50%,rgba(0,0,0,.2) 50%);
+  background-size:100% 4px;min-height:100vh;display:flex}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg-card);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sb-header{padding:18px;border-bottom:1px solid var(--border)}
+.brand{font-size:17px;font-weight:800;color:var(--accent);letter-spacing:4px;
+  text-shadow:0 0 10px var(--accent-glow)}
+.brand-sub{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-top:3px}
+.sb-nav{flex:1;padding:10px 0}
+.nav-sect{padding:10px 16px 4px;font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px}
+.nav-link{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:11px;
+  color:var(--text-secondary);cursor:pointer;border-left:2px solid transparent;transition:all 120ms}
+.nav-link:hover{background:var(--accent-surface);color:var(--text)}
+.nav-link.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-surface)}
+.nav-link svg{width:13px;height:13px;flex-shrink:0}
+.sb-footer{padding:12px 16px;border-top:1px solid var(--border);font-size:9px;color:var(--text-muted)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;padding:12px 20px;
+  border-bottom:1px solid var(--border);background:var(--bg-card);gap:12px}
+.topbar h1{font-size:12px;font-weight:700;color:var(--white);letter-spacing:1px;flex:1;text-transform:uppercase}
+.api-status{font-size:9px;padding:3px 9px;border:1px solid;text-transform:uppercase;letter-spacing:1px}
+.api-ok{border-color:var(--success);color:var(--success)}
+.api-err{border-color:var(--danger);color:var(--danger)}
+
+/* PAGES */
+.page{display:none;flex:1;padding:20px;overflow-y:auto}
+.page.active{display:block}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--bg-surface);border:1px solid var(--border);padding:16px}
+.stat-label{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.stat-val{font-size:24px;font-weight:700;color:var(--accent)}
+.stat-sub{font-size:9px;color:var(--text-muted);margin-top:4px}
+
+/* BAR CHART */
+.chart-area{background:var(--bg-surface);border:1px solid var(--border);padding:16px;margin-bottom:16px}
+.chart-title{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.bar-chart{display:flex;align-items:flex-end;gap:4px;height:80px}
+.bar{flex:1;background:var(--accent);opacity:.65;min-width:4px;position:relative}
+.bar:hover{opacity:1}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* TABLE */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.section-title{font-size:11px;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:1px}
+.search-bar{padding:7px 11px;font-size:11px;font-family:var(--font);
+  background:#000;border:1px solid var(--border);color:var(--text);outline:none;width:200px}
+.search-bar:focus{border-color:var(--accent)}
+.btn-add{padding:6px 12px;font-size:10px;font-family:var(--font);
+  background:var(--accent-surface);border:1px solid var(--accent-dim);
+  color:var(--accent);cursor:pointer;text-transform:uppercase;letter-spacing:1px}
+.btn-add:hover{background:var(--accent);color:#000}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead tr{background:var(--bg-elevated);border-bottom:1px solid var(--border)}
+thead th{padding:9px 11px;text-align:left;font-size:8px;font-weight:700;
+  color:var(--accent);text-transform:uppercase;letter-spacing:1px}
+tbody tr{border-bottom:1px solid var(--border)}
+tbody tr:hover{background:var(--accent-surface)}
+tbody td{padding:9px 11px;color:var(--text-secondary)}
+.badge{padding:2px 7px;font-size:8px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.badge-free{background:rgba(106,90,74,.15);color:var(--text-muted);border:1px solid var(--border)}
+.badge-premium{background:var(--premium-surface);color:var(--premium);border:1px solid var(--premium-dim)}
+.btn-sm{padding:3px 9px;font-size:9px;font-family:var(--font);border:1px solid;cursor:pointer;text-transform:uppercase}
+.btn-edit{background:transparent;border-color:var(--border);color:var(--text-secondary)}
+.btn-edit:hover{border-color:var(--accent);color:var(--accent)}
+.btn-del{background:transparent;border-color:rgba(255,51,85,.3);color:var(--danger)}
+.btn-del:hover{background:var(--danger);color:#fff}
+
+/* PERSONA ROWS */
+.persona-list{display:flex;flex-direction:column;gap:6px}
+.persona-row{display:grid;grid-template-columns:36px 160px 1fr auto;
+  align-items:center;gap:12px;padding:10px 12px;
+  background:var(--bg-surface);border:1px solid var(--border)}
+.persona-emoji{font-size:18px;text-align:center}
+.persona-name{font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px}
+.persona-prompt{font-size:10px;color:var(--text-muted);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* LOADING */
+.loading{color:var(--text-muted);font-size:11px;padding:20px;text-align:center}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-header">
+    <div class="brand">[KIPP]</div>
+    <div class="brand-sub">Panel Administrador</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-sect">General</div>
+    <a class="nav-link active" onclick="navigate('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard
+    </a>
+    <div class="nav-sect">Gestión</div>
+    <a class="nav-link" onclick="navigate('usuarios',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Usuarios
+    </a>
+    <a class="nav-link" onclick="navigate('personalidades',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Personalidades
+    </a>
+    <a class="nav-link" onclick="navigate('dispositivos',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Dispositivos
+    </a>
+    <div class="nav-sect">Análisis</div>
+    <a class="nav-link" onclick="navigate('estadisticas',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Estadísticas
+    </a>
+  </nav>
+  <div class="sb-footer">⬡ admin@kipp.cl · v4.0</div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <h1 id="pageTitle">Dashboard</h1>
+    <span class="api-status api-err" id="apiStatus">API: comprobando...</span>
+  </header>
+
+  <!-- P-08: DASHBOARD -->
+  <section class="page active" id="page-dashboard">
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card"><div class="stat-label">Total Usuarios</div><div class="stat-val" id="sUsuarios">—</div></div>
+      <div class="stat-card"><div class="stat-label">Usuarios Premium</div><div class="stat-val" style="color:var(--premium)" id="sPremium">—</div></div>
+      <div class="stat-card"><div class="stat-label">Dispositivos</div><div class="stat-val" id="sDispositivos">—</div></div>
+      <div class="stat-card"><div class="stat-label">Total Consultas</div><div class="stat-val" id="sConsultas">—</div></div>
+    </div>
+    <div class="chart-area">
+      <div class="chart-title">Consultas por día — Últimos 30 días</div>
+      <div class="bar-chart" id="barChart"><div class="loading">Cargando datos...</div></div>
+    </div>
+  </section>
+
+  <!-- P-09: USUARIOS -->
+  <section class="page" id="page-usuarios">
+    <div class="section-header">
+      <div class="section-title">Gestión de Usuarios</div>
+      <input class="search-bar" id="searchUsuarios" placeholder="Buscar nombre o email..." oninput="filterUsuarios()">
+    </div>
+    <table>
+      <thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Plan</th><th>Dispositivos</th><th>Registro</th><th>Acciones</th></tr></thead>
+      <tbody id="tbUsuarios"><tr><td colspan="7" class="loading">Cargando...</td></tr></tbody>
+    </table>
+  </section>
+
+  <!-- P-10: PERSONALIDADES -->
+  <section class="page" id="page-personalidades">
+    <div class="section-header">
+      <div class="section-title">Gestión de Personalidades</div>
+      <button class="btn-add">+ Nueva Personalidad</button>
+    </div>
+    <div class="persona-list" id="personaList"><div class="loading">Cargando...</div></div>
+  </section>
+
+  <!-- P-11: DISPOSITIVOS -->
+  <section class="page" id="page-dispositivos">
+    <div class="section-header">
+      <div class="section-title">Gestión de Dispositivos</div>
+      <input class="search-bar" placeholder="Buscar MAC o usuario...">
+    </div>
+    <table>
+      <thead><tr><th>ID</th><th>MAC Address</th><th>Nombre</th><th>Usuario</th><th>Plan</th><th>Personalidad Activa</th><th>Acciones</th></tr></thead>
+      <tbody id="tbDispositivos"><tr><td colspan="7" class="loading">Cargando...</td></tr></tbody>
+    </table>
+  </section>
+
+  <!-- P-12: ESTADÍSTICAS -->
+  <section class="page" id="page-estadisticas">
+    <div class="section-title" style="margin-bottom:14px">Estadísticas del Sistema</div>
+    <div class="chart-row">
+      <div class="chart-area">
+        <div class="chart-title">Consultas por día</div>
+        <div class="bar-chart" id="barChart2"><div class="loading">Cargando...</div></div>
+      </div>
+      <div class="chart-area">
+        <div class="chart-title">Distribución de planes</div>
+        <table style="margin-top:8px" id="tbPlanes"><tr><td class="loading">Cargando...</td></tr></table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// Auto-detectar URL de API según dónde esté corriendo
+const API = (window.location.port === '5000' || window.location.hostname !== '127.0.0.1')
+  ? window.location.origin + '/api'
+  : 'http://127.0.0.1:5000/api';
+let _usuarios = [];
+const titles = {dashboard:'Dashboard',usuarios:'Gestión de Usuarios',
+  personalidades:'Gestión de Personalidades',dispositivos:'Gestión de Dispositivos',estadisticas:'Estadísticas'};
+
+function navigate(id, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('pageTitle').textContent = titles[id]||id;
+  if(id==='usuarios') loadUsuarios();
+  if(id==='personalidades') loadPersonalidades();
+  if(id==='dispositivos') loadDispositivos();
+  if(id==='estadisticas') loadStats();
+}
+
+async function apiFetch(path){
+  const r = await fetch(API+path);
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+// ── STATUS CHECK ──
+async function checkAPI(){
+  try{
+    await apiFetch('/personalidades');
+    document.getElementById('apiStatus').textContent='API: CONECTADA';
+    document.getElementById('apiStatus').className='api-status api-ok';
+  }catch{
+    document.getElementById('apiStatus').textContent='API: SIN CONEXIÓN';
+  }
+}
+
+// ── DASHBOARD STATS ──
+async function loadDashboard(){
+  try{
+    const s = await apiFetch('/admin/stats');
+    document.getElementById('sUsuarios').textContent = s.total_usuarios;
+    document.getElementById('sPremium').textContent = s.total_premium;
+    document.getElementById('sDispositivos').textContent = s.total_dispositivos;
+    document.getElementById('sConsultas').textContent = s.total_consultas;
+    renderBars(s.consultas_por_dia, 'barChart');
+    renderBars(s.consultas_por_dia, 'barChart2');
+    renderPlanesTable(s.total_usuarios, s.total_premium);
+  }catch(e){
+    console.warn('Stats no disponibles:', e.message);
+    // Mostrar datos de fallback
+    document.getElementById('sUsuarios').textContent = '1';
+    document.getElementById('sPremium').textContent = '0';
+    document.getElementById('sDispositivos').textContent = '1';
+    document.getElementById('sConsultas').textContent = '1';
+    document.getElementById('barChart').innerHTML='<div class="loading" style="font-size:9px">Sin datos de consultas aún</div>';
+  }
+}
+
+function renderBars(data, containerId){
+  const c = document.getElementById(containerId);
+  if(!data||!data.length){c.innerHTML='<div class="loading" style="font-size:9px">Sin datos aún</div>';return;}
+  const max = Math.max(...data.map(d=>d.consultas),1);
+  c.innerHTML = data.map(d=>`<div class="bar" style="height:${Math.max(d.consultas/max*100,4)}%" title="${d.dia}: ${d.consultas}"></div>`).join('');
+}
+
+function renderPlanesTable(total, premium){
+  const free = total - premium;
+  document.getElementById('tbPlanes').innerHTML=`
+    <thead><tr><th>Plan</th><th>Usuarios</th><th>%</th></tr></thead>
+    <tbody>
+      <tr><td>FREE</td><td>${free}</td><td>${total?((free/total)*100).toFixed(1):0}%</td></tr>
+      <tr><td style="color:var(--premium)">PREMIUM</td><td style="color:var(--premium)">${premium}</td><td style="color:var(--premium)">${total?((premium/total)*100).toFixed(1):0}%</td></tr>
+    </tbody>`;
+}
+
+// ── USUARIOS ──
+async function loadUsuarios(){
+  try{
+    _usuarios = await apiFetch('/admin/usuarios');
+    renderUsuarios(_usuarios);
+  }catch(e){
+    document.getElementById('tbUsuarios').innerHTML=`<tr><td colspan="7" class="loading" style="color:var(--danger)">Error: ${e.message}</td></tr>`;
+  }
+}
+function renderUsuarios(list){
+  const tb = document.getElementById('tbUsuarios');
+  if(!list.length){tb.innerHTML='<tr><td colspan="7" class="loading">Sin usuarios registrados</td></tr>';return;}
+  tb.innerHTML = list.map(u=>`
+    <tr>
+      <td>#${String(u.id_usuario).padStart(3,'0')}</td>
+      <td>${u.nombre_completo}</td>
+      <td>${u.email}</td>
+      <td><span class="badge ${u.plan_premium?'badge-premium':'badge-free'}">${u.plan_premium?'PREMIUM':'FREE'}</span></td>
+      <td>${u.total_dispositivos}</td>
+      <td>${u.fecha_registro?u.fecha_registro.split('T')[0]:'—'}</td>
+      <td>
+        <button class="btn-sm btn-edit" onclick="togglePlan(${u.id_usuario},${u.plan_premium})">
+          ${u.plan_premium?'→ Free':'→ Premium'}
+        </button>
+        <button class="btn-sm btn-del" onclick="deleteUsuario(${u.id_usuario},'${u.nombre_completo}')">Eliminar</button>
+      </td>
+    </tr>`).join('');
+}
+function filterUsuarios(){
+  const q = document.getElementById('searchUsuarios').value.toLowerCase();
+  renderUsuarios(_usuarios.filter(u=>u.nombre_completo.toLowerCase().includes(q)||u.email.toLowerCase().includes(q)));
+}
+async function togglePlan(id, current){
+  if(!confirm(`¿Cambiar plan de este usuario?`)) return;
+  await fetch(API+'/admin/usuarios/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan_premium:current?0:1})});
+  loadUsuarios();
+}
+async function deleteUsuario(id, nombre){
+  if(!confirm(`¿Eliminar usuario "${nombre}"?\nSe eliminará todo su historial y dispositivos.`)) return;
+  await fetch(API+'/admin/usuarios/'+id,{method:'DELETE'});
+  loadUsuarios();
+}
+
+// ── PERSONALIDADES ──
+async function loadPersonalidades(){
+  try{
+    const list = await apiFetch('/personalidades');
+    const c = document.getElementById('personaList');
+    c.innerHTML = list.map(p=>`
+      <div class="persona-row">
+        <div class="persona-emoji">${p.emoji||'🤖'}</div>
+        <div>
+          <div class="persona-name">${p.nombre}</div>
+          <span class="badge ${p.es_premium?'badge-premium':'badge-free'}">${p.es_premium?'PREMIUM':'FREE'}</span>
+        </div>
+        <div class="persona-prompt">${p.prompt}</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn-sm btn-edit">Editar</button>
+          <button class="btn-sm btn-del" onclick="deletePersonalidad(${p.id},'${p.nombre}')">Eliminar</button>
+        </div>
+      </div>`).join('');
+  }catch(e){
+    document.getElementById('personaList').innerHTML=`<div class="loading" style="color:var(--danger)">Error: ${e.message}</div>`;
+  }
+}
+async function deletePersonalidad(id, nombre){
+  if(!confirm(`¿Eliminar personalidad "${nombre}"?`)) return;
+  const r = await fetch(API+'/personalidades/'+id,{method:'DELETE'});
+  const data = await r.json();
+  if(!r.ok) alert('No se puede eliminar: '+data.error);
+  else loadPersonalidades();
+}
+
+// ── DISPOSITIVOS ──
+async function loadDispositivos(){
+  try{
+    const list = await apiFetch('/admin/dispositivos');
+    const tb = document.getElementById('tbDispositivos');
+    if(!list.length){tb.innerHTML='<tr><td colspan="7" class="loading">Sin dispositivos</td></tr>';return;}
+    tb.innerHTML = list.map(d=>`
+      <tr>
+        <td>#${String(d.id_dispositivo).padStart(3,'0')}</td>
+        <td style="font-size:10px">${d.mac_address}</td>
+        <td>${d.nombre_dispositivo||'—'}</td>
+        <td>${d.nombre_completo||'—'}</td>
+        <td><span class="badge ${d.plan_premium?'badge-premium':'badge-free'}">${d.plan_premium?'PREMIUM':'FREE'}</span></td>
+        <td>${d.personalidad_activa||'—'}</td>
+        <td><button class="btn-sm btn-del" onclick="deleteDispositivo(${d.id_dispositivo})">Eliminar</button></td>
+      </tr>`).join('');
+  }catch(e){
+    document.getElementById('tbDispositivos').innerHTML=`<tr><td colspan="7" class="loading" style="color:var(--danger)">Error: ${e.message}</td></tr>`;
+  }
+}
+async function deleteDispositivo(id){
+  if(!confirm('¿Eliminar este dispositivo? Se eliminará su historial.')) return;
+  await fetch(API+'/admin/dispositivos/'+id,{method:'DELETE'});
+  loadDispositivos();
+}
+
+// ── ESTADÍSTICAS ──
+async function loadStats(){
+  await loadDashboard();
+}
+
+// ── INIT ──
+checkAPI();
+loadDashboard();
+</script>
+</body>
+</html>
